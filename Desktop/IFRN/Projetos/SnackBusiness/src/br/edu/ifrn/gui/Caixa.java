@@ -4,6 +4,7 @@ import br.edu.ifrn.negocio.Produto;
 import br.edu.ifrn.persistencia.ProdutoDAO;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Insets;
 import javax.swing.BorderFactory;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -19,6 +20,7 @@ public class Caixa extends javax.swing.JFrame {
     String idProduto;
     boolean venda = false;
     String cod = null;
+    double valorVenda;
 
     
 
@@ -34,16 +36,19 @@ public class Caixa extends javax.swing.JFrame {
         tableProdutosVendasLabel.setBackground(Color.decode("#F0F0F0"));
         JTableHeader tableProdutosVendaHeader = tableProdutosVenda.getTableHeader();
         tableProdutosVendaHeader.setFont(new java.awt.Font("Roboto Light", 0, 13));
+        
         produtoField.setBorder(BorderFactory.createCompoundBorder(produtoField.getBorder(), BorderFactory.createEmptyBorder(10, 10, 10, 10)));
         
+        quantidadeField.setMargin(new Insets(10, 10, 10, 10));
+        
         quantidadeField.setText("0");
-        totalField.setText("0");
+        totalLabel.setText("0");
         valorUniField.setText("0");
         subTotalField.setText("0");
         
         produtoField.setEditable(false);
         quantidadeField.setEditable(false);
-        totalField.setEditable(false);
+        totalLabel.setText("TOTAL: R$ 00.00");
         valorUniField.setEditable(false);
         subTotalField.setEditable(false);
         btnFinalizarVenda.setVisible(false);
@@ -82,10 +87,9 @@ public class Caixa extends javax.swing.JFrame {
         valorUniField = new javax.swing.JTextField();
         subTotalLabel = new javax.swing.JLabel();
         subTotalField = new javax.swing.JTextField();
+        btnRemoverProduto = new javax.swing.JButton();
         btnFinalizarVenda = new javax.swing.JButton();
         totalLabel = new javax.swing.JLabel();
-        totalField = new javax.swing.JTextField();
-        btnRemoverProduto = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
@@ -375,43 +379,18 @@ public class Caixa extends javax.swing.JFrame {
             }
         });
 
-        btnFinalizarVenda.setText("Finalizar venda");
-        btnFinalizarVenda.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnFinalizarVendaActionPerformed(evt);
-            }
-        });
-
-        totalLabel.setFont(new java.awt.Font("Roboto", 1, 18)); // NOI18N
-        totalLabel.setForeground(new java.awt.Color(51, 51, 51));
-        totalLabel.setText("TOTAL:");
-
-        totalField.setFont(new java.awt.Font("Roboto Light", 0, 14)); // NOI18N
-        totalField.setForeground(new java.awt.Color(51, 51, 51));
-        totalField.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(204, 204, 204)));
-        totalField.setDisabledTextColor(new java.awt.Color(153, 153, 153));
-        totalField.addCaretListener(new javax.swing.event.CaretListener() {
-            public void caretUpdate(javax.swing.event.CaretEvent evt) {
-                totalFieldCaretUpdate(evt);
-            }
-        });
-        totalField.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                totalFieldMouseClicked(evt);
-            }
-        });
-        totalField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                totalFieldActionPerformed(evt);
-            }
-        });
-
         btnRemoverProduto.setText("Remover Produto");
         btnRemoverProduto.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnRemoverProdutoActionPerformed(evt);
             }
         });
+
+        btnFinalizarVenda.setText("Finalizar venda");
+
+        totalLabel.setFont(new java.awt.Font("Roboto", 1, 18)); // NOI18N
+        totalLabel.setForeground(new java.awt.Color(51, 51, 51));
+        totalLabel.setText("TOTAL: R$ 00.00");
 
         javax.swing.GroupLayout wrapLayout = new javax.swing.GroupLayout(wrap);
         wrap.setLayout(wrapLayout);
@@ -429,42 +408,37 @@ public class Caixa extends javax.swing.JFrame {
                         .addGap(26, 26, 26)
                         .addGroup(wrapLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(wrapLayout.createSequentialGroup()
-                                .addComponent(totalLabel)
-                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addComponent(totalLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 212, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(btnFinalizarVenda, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, wrapLayout.createSequentialGroup()
-                                .addGroup(wrapLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(headerCaixa)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(btnBooleanVenda, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(separador)
+                            .addGroup(wrapLayout.createSequentialGroup()
+                                .addGroup(wrapLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(produtoLabel)
+                                    .addComponent(produtoField))
+                                .addGap(18, 18, 18)
+                                .addGroup(wrapLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(quantidadeLabel)
+                                    .addComponent(quantidadeField, javax.swing.GroupLayout.PREFERRED_SIZE, 212, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(wrapTableProdutosVenda, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(wrapLayout.createSequentialGroup()
+                                .addGroup(wrapLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(valorUniLabel)
+                                    .addComponent(valorUniField, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(18, 18, 18)
+                                .addGroup(wrapLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(wrapLayout.createSequentialGroup()
-                                        .addComponent(headerCaixa)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(btnBooleanVenda, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addComponent(subTotalLabel)
+                                        .addGap(0, 0, Short.MAX_VALUE))
                                     .addGroup(wrapLayout.createSequentialGroup()
-                                        .addComponent(totalField, javax.swing.GroupLayout.PREFERRED_SIZE, 236, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(subTotalField, javax.swing.GroupLayout.PREFERRED_SIZE, 229, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(btnFinalizarVenda))
-                                    .addComponent(separador, javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, wrapLayout.createSequentialGroup()
-                                        .addGroup(wrapLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(produtoLabel)
-                                            .addComponent(produtoField))
-                                        .addGap(18, 18, 18)
-                                        .addGroup(wrapLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(quantidadeLabel)
-                                            .addComponent(quantidadeField, javax.swing.GroupLayout.PREFERRED_SIZE, 212, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                    .addComponent(wrapTableProdutosVenda, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, wrapLayout.createSequentialGroup()
-                                        .addGroup(wrapLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(valorUniLabel)
-                                            .addComponent(valorUniField, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addGap(18, 18, 18)
-                                        .addGroup(wrapLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addGroup(wrapLayout.createSequentialGroup()
-                                                .addComponent(subTotalLabel)
-                                                .addGap(0, 0, Short.MAX_VALUE))
-                                            .addGroup(wrapLayout.createSequentialGroup()
-                                                .addComponent(subTotalField, javax.swing.GroupLayout.PREFERRED_SIZE, 229, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                .addComponent(btnRemoverProduto)))))
-                                .addGap(26, 26, 26))))))
+                                        .addComponent(btnRemoverProduto)))))
+                        .addGap(26, 26, 26))))
         );
         wrapLayout.setVerticalGroup(
             wrapLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -501,12 +475,10 @@ public class Caixa extends javax.swing.JFrame {
                 .addGap(22, 22, 22)
                 .addComponent(wrapTableProdutosVenda, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
-                .addComponent(totalLabel)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(wrapLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(totalField, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnFinalizarVenda, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(38, 38, 38))
+                .addGroup(wrapLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnFinalizarVenda, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(totalLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(28, 28, 28))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -601,22 +573,6 @@ public class Caixa extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_subTotalFieldMouseClicked
 
-    private void btnFinalizarVendaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFinalizarVendaActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnFinalizarVendaActionPerformed
-
-    private void totalFieldCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_totalFieldCaretUpdate
-        // TODO add your handling code here:
-    }//GEN-LAST:event_totalFieldCaretUpdate
-
-    private void totalFieldMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_totalFieldMouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_totalFieldMouseClicked
-
-    private void totalFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_totalFieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_totalFieldActionPerformed
-
     private void btnRemoverProdutoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemoverProdutoActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btnRemoverProdutoActionPerformed
@@ -628,7 +584,7 @@ public class Caixa extends javax.swing.JFrame {
             
             produtoField.setEditable(true);
             quantidadeField.setEditable(true);
-            totalField.setEditable(true);
+            totalLabel.setText("TOTAL: R$ 00.00");
             valorUniField.setEditable(true);
             subTotalField.setEditable(true);
             btnFinalizarVenda.setVisible(true);
@@ -642,8 +598,8 @@ public class Caixa extends javax.swing.JFrame {
             
         } else {
             int dialogButton = JOptionPane.YES_NO_OPTION;
-            JOptionPane.showConfirmDialog(tableProdutosVenda, "Você realmente deseja cancelar esta conta? Todos os dados serão perdidos", "AVISO", dialogButton);
-            if (dialogButton == JOptionPane.YES_OPTION) {
+            int resultado = JOptionPane.showConfirmDialog(this, "Você realmente deseja cancelar esta conta? Todos os dados serão perdidos", "AVISO", dialogButton);
+            if (resultado == JOptionPane.YES_OPTION) {
                 venda = false;
                 
                 produtoField.setEditable(false);
@@ -652,8 +608,7 @@ public class Caixa extends javax.swing.JFrame {
                 quantidadeField.setEditable(false);
                 quantidadeField.setText("0");
                 
-                totalField.setEditable(false);
-                totalField.setText("0");
+                totalLabel.setText("TOTAL: R$ 00.00");
                 
                 valorUniField.setEditable(false);
                 valorUniField.setText("0");
@@ -706,6 +661,8 @@ public class Caixa extends javax.swing.JFrame {
             produtoField.requestFocus();
             modeloProduto.addRow(new Object[]{produtoField.getText(), quantidade, valorUni, subTotal});
             
+            setValorVenda();
+            
         }
     }//GEN-LAST:event_quantidadeFieldKeyPressed
 
@@ -716,7 +673,15 @@ public class Caixa extends javax.swing.JFrame {
     private void produtoFieldFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_produtoFieldFocusGained
         produtoField.selectAll();
     }//GEN-LAST:event_produtoFieldFocusGained
-
+    
+    public void setValorVenda(){
+        valorVenda = 0;
+        for (int i = 0; i < modeloProduto.getRowCount(); i++) {
+            valorVenda += Double.parseDouble(modeloProduto.getValueAt(i, 3).toString());
+        }
+        totalLabel.setText("TOTAL: R$ " + Double.toString(valorVenda));
+    }
+    
     /**
      * @param args the command line arguments
      */
@@ -780,7 +745,6 @@ public class Caixa extends javax.swing.JFrame {
     private javax.swing.JLabel subTotalLabel;
     private javax.swing.JTable tableProdutosVenda;
     private javax.swing.JLabel tableProdutosVendasLabel;
-    private javax.swing.JTextField totalField;
     private javax.swing.JLabel totalLabel;
     private javax.swing.JTextField valorUniField;
     private javax.swing.JLabel valorUniLabel;

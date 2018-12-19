@@ -112,10 +112,8 @@ public class Produtos extends javax.swing.JFrame {
         btnIconizar = new javax.swing.JButton();
 
         cadastrarProduto.setLocationByPlatform(true);
-        cadastrarProduto.setMaximumSize(new java.awt.Dimension(314, 449));
         cadastrarProduto.setMinimumSize(new java.awt.Dimension(314, 449));
         cadastrarProduto.setModal(true);
-        cadastrarProduto.setPreferredSize(new java.awt.Dimension(314, 449));
         cadastrarProduto.setResizable(false);
 
         wrapCadastarProduto.setBackground(new java.awt.Color(255, 255, 255));
@@ -520,10 +518,16 @@ public class Produtos extends javax.swing.JFrame {
         });
         scrollTableProdutos.setViewportView(tableProdutos);
         if (tableProdutos.getColumnModel().getColumnCount() > 0) {
-            tableProdutos.getColumnModel().getColumn(0).setResizable(false);
+            tableProdutos.getColumnModel().getColumn(0).setMinWidth(150);
+            tableProdutos.getColumnModel().getColumn(0).setPreferredWidth(150);
+            tableProdutos.getColumnModel().getColumn(0).setMaxWidth(150);
             tableProdutos.getColumnModel().getColumn(1).setResizable(false);
-            tableProdutos.getColumnModel().getColumn(2).setResizable(false);
-            tableProdutos.getColumnModel().getColumn(3).setResizable(false);
+            tableProdutos.getColumnModel().getColumn(2).setMinWidth(150);
+            tableProdutos.getColumnModel().getColumn(2).setPreferredWidth(150);
+            tableProdutos.getColumnModel().getColumn(2).setMaxWidth(150);
+            tableProdutos.getColumnModel().getColumn(3).setMinWidth(150);
+            tableProdutos.getColumnModel().getColumn(3).setPreferredWidth(150);
+            tableProdutos.getColumnModel().getColumn(3).setMaxWidth(150);
         }
 
         tableProdutosLabel.setBackground(new java.awt.Color(255, 255, 255));
@@ -767,7 +771,7 @@ public class Produtos extends javax.swing.JFrame {
 
     private void btnCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCadastrarActionPerformed
         String codigo = codigoField.getText();
-        String nome = nomeField.getText();
+        String nome = nomeField.getText().toUpperCase();
         double precoCompra = Double.parseDouble(precoCompraField.getText());
         double precoVenda = Double.parseDouble(precoVendaField.getText());
         ProdutoDAO produto = new ProdutoDAO();
@@ -833,8 +837,7 @@ public class Produtos extends javax.swing.JFrame {
 
     private void btnCaixaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCaixaActionPerformed
         Caixa caixa = new Caixa();
-        caixa.setVisible(true);
-        
+        caixa.setVisible(true); 
     }//GEN-LAST:event_btnCaixaActionPerformed
 
     private void btnProdutosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProdutosActionPerformed
