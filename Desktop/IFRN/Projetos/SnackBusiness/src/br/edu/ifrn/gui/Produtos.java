@@ -6,6 +6,7 @@ import br.edu.ifrn.persistencia.ProdutoDAO;
 import java.awt.Color;
 import java.awt.Dimension;
 import javax.swing.BorderFactory;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import javax.swing.table.TableRowSorter;
@@ -16,7 +17,7 @@ public class Produtos extends javax.swing.JFrame {
     int selectedRow;
     int mouseX;
     int mouseY;
-    int idProduto;
+    String idProduto;
     
     private void selecionarProduto(){
         ProdutoDAO banco = new ProdutoDAO();
@@ -45,27 +46,20 @@ public class Produtos extends javax.swing.JFrame {
         scrollTableProdutos.setBorder(null);
         tableProdutos.setFillsViewportHeight(true);
         tableProdutosLabel.setOpaque(true);
-        tableProdutosLabel.setBackground(Color.decode("#089C59"));
+        tableProdutosLabel.setBackground(Color.decode("#005099"));
         instructions.setText("<html><body>- Clique duas vezes em um produto para alterá-lo; <br>- Selecione uma produto e clique no botão <b>EXCLUIR</b> para apagar um prodtuto; <br>- Clique no botão <b>INSERIR</b> para cadastrar um produto.</body></html>");
         JTableHeader tableProdutosHeader = tableProdutos.getTableHeader();
         tableProdutosHeader.setFont(new java.awt.Font("Roboto Light", 0, 13));
         sort();
         selecionarProduto();
         pesquisaProutos.setBorder(BorderFactory.createCompoundBorder(pesquisaProutos.getBorder(), BorderFactory.createEmptyBorder(10, 10, 10, 10)));
-        dialogTextWarning.setText("<html><body>Tem certeza que deseja excluir este item? Essa ação não pode ser revertida!</body></html>");
+        
     }
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        dialogYesNo = new javax.swing.JDialog();
-        dialogWrap = new javax.swing.JPanel();
-        dialogHeader = new javax.swing.JLabel();
-        dialogTextWarning = new javax.swing.JLabel();
-        btnYes = new javax.swing.JButton();
-        btnNo = new javax.swing.JButton();
-        jLabel1 = new javax.swing.JLabel();
         cadastrarProduto = new javax.swing.JDialog();
         wrapCadastarProduto = new javax.swing.JPanel();
         cadastrarProdutoIcon = new javax.swing.JLabel();
@@ -117,101 +111,9 @@ public class Produtos extends javax.swing.JFrame {
         btnMinimizar = new javax.swing.JButton();
         btnIconizar = new javax.swing.JButton();
 
-        dialogYesNo.setMinimumSize(new java.awt.Dimension(340, 130));
-        dialogYesNo.setModal(true);
-
-        dialogWrap.setBackground(new java.awt.Color(255, 255, 255));
-        dialogWrap.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(8, 156, 89)));
-        dialogWrap.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
-            public void mouseDragged(java.awt.event.MouseEvent evt) {
-                dialogWrapMouseDragged(evt);
-            }
-        });
-        dialogWrap.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                dialogWrapMousePressed(evt);
-            }
-        });
-
-        dialogHeader.setFont(new java.awt.Font("Roboto", 1, 14)); // NOI18N
-        dialogHeader.setForeground(new java.awt.Color(37, 36, 34));
-        dialogHeader.setText("AVISO");
-
-        dialogTextWarning.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
-        dialogTextWarning.setText("jLabel2");
-
-        btnYes.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/edu/ifrn/imgs/btnYes.png"))); // NOI18N
-        btnYes.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnYesActionPerformed(evt);
-            }
-        });
-
-        btnNo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/edu/ifrn/imgs/btnNo.png"))); // NOI18N
-        btnNo.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnNoActionPerformed(evt);
-            }
-        });
-
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/edu/ifrn/imgs/aviso.png"))); // NOI18N
-        jLabel1.setText("jLabel1");
-
-        javax.swing.GroupLayout dialogWrapLayout = new javax.swing.GroupLayout(dialogWrap);
-        dialogWrap.setLayout(dialogWrapLayout);
-        dialogWrapLayout.setHorizontalGroup(
-            dialogWrapLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(dialogWrapLayout.createSequentialGroup()
-                .addGap(15, 15, 15)
-                .addGroup(dialogWrapLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(dialogWrapLayout.createSequentialGroup()
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(dialogHeader)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, dialogWrapLayout.createSequentialGroup()
-                        .addComponent(dialogTextWarning, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGap(15, 15, 15))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, dialogWrapLayout.createSequentialGroup()
-                        .addGap(0, 227, Short.MAX_VALUE)
-                        .addComponent(btnNo, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnYes, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap())))
-        );
-        dialogWrapLayout.setVerticalGroup(
-            dialogWrapLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(dialogWrapLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(dialogWrapLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(btnNo, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(dialogWrapLayout.createSequentialGroup()
-                        .addGroup(dialogWrapLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(dialogHeader)
-                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 12, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(dialogTextWarning, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnYes, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(13, Short.MAX_VALUE))
-        );
-
-        javax.swing.GroupLayout dialogYesNoLayout = new javax.swing.GroupLayout(dialogYesNo.getContentPane());
-        dialogYesNo.getContentPane().setLayout(dialogYesNoLayout);
-        dialogYesNoLayout.setHorizontalGroup(
-            dialogYesNoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(dialogWrap, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-        dialogYesNoLayout.setVerticalGroup(
-            dialogYesNoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(dialogWrap, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-
         cadastrarProduto.setLocationByPlatform(true);
-        cadastrarProduto.setMaximumSize(new java.awt.Dimension(314, 449));
         cadastrarProduto.setMinimumSize(new java.awt.Dimension(314, 449));
         cadastrarProduto.setModal(true);
-        cadastrarProduto.setPreferredSize(new java.awt.Dimension(314, 449));
         cadastrarProduto.setResizable(false);
 
         wrapCadastarProduto.setBackground(new java.awt.Color(255, 255, 255));
@@ -350,10 +252,8 @@ public class Produtos extends javax.swing.JFrame {
                 .addGap(0, 0, Short.MAX_VALUE))
         );
 
-        atualizarProduto.setMaximumSize(new java.awt.Dimension(316, 449));
         atualizarProduto.setMinimumSize(new java.awt.Dimension(316, 449));
         atualizarProduto.setModal(true);
-        atualizarProduto.setPreferredSize(new java.awt.Dimension(316, 449));
         atualizarProduto.setResizable(false);
 
         wrapAtualizarProduto.setBackground(new java.awt.Color(255, 255, 255));
@@ -492,7 +392,7 @@ public class Produtos extends javax.swing.JFrame {
             }
         });
 
-        sideMenu.setBackground(new java.awt.Color(8, 158, 89));
+        sideMenu.setBackground(new java.awt.Color(0, 80, 153));
 
         sideMenuLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/edu/ifrn/imgs/sideMenuLogo.png"))); // NOI18N
 
@@ -560,18 +460,18 @@ public class Produtos extends javax.swing.JFrame {
             .addComponent(btnClientes, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(btnVendas, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
             .addComponent(btnContas, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, sideMenuLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(sideMenuLogo, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(30, 30, 30))
             .addComponent(btnDashboard, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+            .addGroup(sideMenuLayout.createSequentialGroup()
+                .addGap(75, 75, 75)
+                .addComponent(sideMenuLogo)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         sideMenuLayout.setVerticalGroup(
             sideMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(sideMenuLayout.createSequentialGroup()
-                .addGap(65, 65, 65)
+                .addGap(67, 67, 67)
                 .addComponent(sideMenuLogo, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(20, 20, 20)
+                .addGap(18, 18, 18)
                 .addComponent(btnDashboard, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
                 .addComponent(btnCaixa, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -809,36 +709,41 @@ public class Produtos extends javax.swing.JFrame {
     }//GEN-LAST:event_pesquisaProutosMouseClicked
 
     private void tableProdutosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableProdutosMouseClicked
-        btnExcluir.setVisible(true);
-        selectedRow = tableProdutos.getSelectedRow();
-        Object selected = tableProdutos.getValueAt(selectedRow, 0);
-        String codigo = selected.toString();
-        codigo = codigo.trim();
+        if (modeloProduto.getRowCount() != 0) {
+            btnExcluir.setVisible(true);
+            selectedRow = tableProdutos.getSelectedRow();
+            Object selected = tableProdutos.getValueAt(selectedRow, 0);
+            String codigo = selected.toString();
+            codigo = codigo.trim();
 
-        if (evt.getClickCount()>= 2){
-            ProdutoDAO produto = new ProdutoDAO();
-            Produto p = produto.getProduto(codigo);
-            newCodigoField.setText(p.getCodigo());
-            newNomeField.setText(p.getNome());
-            newPrecoCompraField.setText(Double.toString(p.getPrecoCompra()));
-            newPrecoVendaField.setText(Double.toString(p.getPrecoVenda()));
-            atualizarProduto.setUndecorated(true);
-            atualizarProduto.setResizable(false);
-            atualizarProduto.setLocationRelativeTo(null);
-            atualizarProduto.setVisible(true); 
+            if (evt.getClickCount()>= 2){
+                ProdutoDAO produto = new ProdutoDAO();
+                Produto p = produto.getProduto(codigo);
+                newCodigoField.setText(p.getCodigo());
+                newNomeField.setText(p.getNome());
+                newPrecoCompraField.setText(Double.toString(p.getPrecoCompra()));
+                newPrecoVendaField.setText(Double.toString(p.getPrecoVenda()));
+                atualizarProduto.setUndecorated(true);
+                atualizarProduto.setResizable(false);
+                atualizarProduto.setLocationRelativeTo(null);
+                atualizarProduto.setVisible(true); 
+            }
         }
-        
     }//GEN-LAST:event_tableProdutosMouseClicked
 
     private void btnExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirActionPerformed
         Object selected = tableProdutos.getValueAt(selectedRow, 0);
-        String id  = selected.toString();
-        id = id.trim();
-        idProduto = Integer.parseInt(id);
-        dialogYesNo.setUndecorated(true);
-        dialogYesNo.setResizable(false);
-        dialogYesNo.setLocationRelativeTo(null);
-        dialogYesNo.setVisible(true);
+        String codigo  = selected.toString();
+        idProduto = codigo.trim();
+        int dialogButton = JOptionPane.YES_NO_OPTION;
+        int resultado = JOptionPane.showConfirmDialog (null, "Você realmente deseja deletar este cliente?","AVISO", dialogButton);
+        if(resultado == JOptionPane.YES_OPTION){
+            ProdutoDAO produto = new ProdutoDAO();
+            produto.deletarProduto(idProduto);
+            selecionarProduto();
+        }else{
+            
+        }
         
     }//GEN-LAST:event_btnExcluirActionPerformed
 
@@ -853,36 +758,28 @@ public class Produtos extends javax.swing.JFrame {
         btnExcluir.setVisible(false);
     }//GEN-LAST:event_wrapMouseClicked
 
-    private void btnNoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNoActionPerformed
-        dialogYesNo.dispose();
-    }//GEN-LAST:event_btnNoActionPerformed
-
-    private void btnYesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnYesActionPerformed
-        ProdutoDAO produto = new ProdutoDAO();
-        //produto.deletarProduto(idProduto);
-        dialogYesNo.dispose();
-        selecionarProduto();
-    }//GEN-LAST:event_btnYesActionPerformed
-
     private void btnCancelarCadastroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarCadastroActionPerformed
         cadastrarProduto.dispose();
         selecionarProduto();
     }//GEN-LAST:event_btnCancelarCadastroActionPerformed
 
     private void btnCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCadastrarActionPerformed
-        //Pega os valores dos jTextFields;
         String codigo = codigoField.getText();
         String nome = nomeField.getText();
         double precoCompra = Double.parseDouble(precoCompraField.getText());
         double precoVenda = Double.parseDouble(precoVendaField.getText());
         ProdutoDAO produto = new ProdutoDAO();
-        produto.cadastrarProduto(codigo, nome, precoCompra, precoVenda);
-        //Seta os valores dos jTextFields para nulo(null);
-        codigoField.setText(null);
-        nomeField.setText(null);
-        precoCompraField.setText(null);
-        precoVendaField.setText(null);
-        selecionarProduto();        
+        if (produto.verificarProduto(codigo) == true && (!codigo.isEmpty()) || !nome.isEmpty() || !precoCompraField.getText().isEmpty() || !precoVendaField.getText().isEmpty()) {
+            produto.cadastrarProduto(codigo, nome, precoCompra, precoVenda);
+            codigoField.setText(null);
+            nomeField.setText(null);
+            precoCompraField.setText(null);
+            precoVendaField.setText(null);
+            selecionarProduto(); 
+        } else if (produto.verificarProduto(codigo) == false){
+            JOptionPane.showMessageDialog(null, "Código de barras já cadastrado");
+            codigoField.setText(null);
+        }
     }//GEN-LAST:event_btnCadastrarActionPerformed
 
     private void wrapCadastarProdutoMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_wrapCadastarProdutoMousePressed
@@ -925,17 +822,6 @@ public class Produtos extends javax.swing.JFrame {
         mouseX = evt.getX();
         mouseY = evt.getY();
     }//GEN-LAST:event_wrapAtualizarProdutoMousePressed
-
-    private void dialogWrapMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_dialogWrapMousePressed
-        mouseX = evt.getX();
-        mouseY = evt.getY();
-    }//GEN-LAST:event_dialogWrapMousePressed
-
-    private void dialogWrapMouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_dialogWrapMouseDragged
-        int x = evt.getXOnScreen();
-        int y = evt.getYOnScreen();
-        dialogYesNo.setLocation(x - mouseX, y - mouseY);
-    }//GEN-LAST:event_dialogWrapMouseDragged
 
     private void btnDashboardActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDashboardActionPerformed
         //Dashboard dashboard = new Dashboard();
@@ -1073,23 +959,16 @@ public class Produtos extends javax.swing.JFrame {
     private javax.swing.JButton btnIconizar;
     private javax.swing.JButton btnInserir;
     private javax.swing.JButton btnMinimizar;
-    private javax.swing.JButton btnNo;
     private javax.swing.JButton btnProdutos;
     private javax.swing.JButton btnVendas;
-    private javax.swing.JButton btnYes;
     private javax.swing.JDialog cadastrarProduto;
     private javax.swing.JLabel cadastrarProdutoIcon;
     private javax.swing.JLabel cadastrarProdutosHeader;
     private javax.swing.JTextField codigoField;
     private javax.swing.JLabel codigoLabel;
-    private javax.swing.JLabel dialogHeader;
-    private javax.swing.JLabel dialogTextWarning;
-    private javax.swing.JPanel dialogWrap;
-    private javax.swing.JDialog dialogYesNo;
     private javax.swing.JLabel draggleBar;
     private javax.swing.JLabel headerProdutos;
     private javax.swing.JLabel instructions;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JTextField newCodigoField;
     private javax.swing.JLabel newCodigoLabel;
     private javax.swing.JTextField newNomeField;

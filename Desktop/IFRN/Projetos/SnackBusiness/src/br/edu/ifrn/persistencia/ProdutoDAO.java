@@ -56,7 +56,7 @@ public class ProdutoDAO extends Conexao{
     }
     
     public void deletarProduto(String codigo){
-        String sql = "DELETE FROM produto WHERE codigo = ?";
+        String sql = "DELETE FROM produtos WHERE codigo = ?";
         PreparedStatement estado1;
         try {
             conectar();
@@ -127,5 +127,26 @@ public class ProdutoDAO extends Conexao{
         }
         return produto;
     }
+    
+    public boolean verificarProduto(String codigo){
+        boolean verificador = false;
+        String sql = "SELECT * FROM produtos WHERE codigo = '"+codigo+"'";
+        ResultSet resultado;
+        conectar();
+        try {
+            resultado = estado.executeQuery(sql);
+            if (!resultado.next()) {
+                verificador = true;
+            } else {
+                verificador = false;
+            }
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Erro ao achar produto");
+        } finally {
+            fecharConexao();
+        }
+        return verificador;
+    }
+    
     
 }
