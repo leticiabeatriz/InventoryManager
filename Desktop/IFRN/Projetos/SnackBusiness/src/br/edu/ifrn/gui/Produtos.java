@@ -112,12 +112,14 @@ public class Produtos extends javax.swing.JFrame {
         btnIconizar = new javax.swing.JButton();
 
         cadastrarProduto.setLocationByPlatform(true);
+        cadastrarProduto.setMaximumSize(new java.awt.Dimension(314, 449));
         cadastrarProduto.setMinimumSize(new java.awt.Dimension(314, 449));
         cadastrarProduto.setModal(true);
+        cadastrarProduto.setPreferredSize(new java.awt.Dimension(314, 449));
         cadastrarProduto.setResizable(false);
 
         wrapCadastarProduto.setBackground(new java.awt.Color(255, 255, 255));
-        wrapCadastarProduto.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(8, 156, 89)));
+        wrapCadastarProduto.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 80, 153)));
         wrapCadastarProduto.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
             public void mouseDragged(java.awt.event.MouseEvent evt) {
                 wrapCadastarProdutoMouseDragged(evt);
@@ -257,7 +259,7 @@ public class Produtos extends javax.swing.JFrame {
         atualizarProduto.setResizable(false);
 
         wrapAtualizarProduto.setBackground(new java.awt.Color(255, 255, 255));
-        wrapAtualizarProduto.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(8, 156, 89)));
+        wrapAtualizarProduto.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 80, 153)));
         wrapAtualizarProduto.setMaximumSize(new java.awt.Dimension(316, 449));
         wrapAtualizarProduto.setMinimumSize(new java.awt.Dimension(316, 449));
         wrapAtualizarProduto.setPreferredSize(new java.awt.Dimension(316, 449));
@@ -736,7 +738,7 @@ public class Produtos extends javax.swing.JFrame {
         String codigo  = selected.toString();
         idProduto = codigo.trim();
         int dialogButton = JOptionPane.YES_NO_OPTION;
-        int resultado = JOptionPane.showConfirmDialog (null, "Você realmente deseja deletar este cliente?","AVISO", dialogButton);
+        int resultado = JOptionPane.showConfirmDialog (null, "Você realmente deseja deletar este produto?","AVISO", dialogButton);
         if(resultado == JOptionPane.YES_OPTION){
             ProdutoDAO produto = new ProdutoDAO();
             produto.deletarProduto(idProduto);
@@ -830,9 +832,9 @@ public class Produtos extends javax.swing.JFrame {
     }//GEN-LAST:event_btnDashboardActionPerformed
 
     private void btnCaixaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCaixaActionPerformed
-        //Caixa caixa = new Caixa();
-        //caixa.setVisible(true);
-        this.setVisible(false);
+        Caixa caixa = new Caixa();
+        caixa.setVisible(true);
+        
     }//GEN-LAST:event_btnCaixaActionPerformed
 
     private void btnProdutosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProdutosActionPerformed
