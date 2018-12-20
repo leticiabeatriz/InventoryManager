@@ -3,13 +3,16 @@ package br.edu.ifrn.gui;
 import br.edu.ifrn.negocio.Produto;
 import br.edu.ifrn.persistencia.ProdutoDAO;
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Insets;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.BorderFactory;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
-import javax.swing.table.TableRowSorter;
 
 public class Caixa extends javax.swing.JFrame {
 
@@ -21,6 +24,7 @@ public class Caixa extends javax.swing.JFrame {
     boolean venda = false;
     String cod = null;
     double valorVenda;
+    int selected;
 
     
 
@@ -54,13 +58,29 @@ public class Caixa extends javax.swing.JFrame {
         btnFinalizarVenda.setVisible(false);
         btnRemoverProduto.setVisible(false);
         tableProdutosVendasLabel.setForeground(Color.decode("#333333"));
-
+        
+        selectClienteComboBox.setEnabled(false);
+        
     }
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        finalizarVenda = new javax.swing.JDialog();
+        wrapFinalizarVenda = new javax.swing.JPanel();
+        finalizarVendaIcon = new javax.swing.JLabel();
+        finalizarVendaHeader = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        valorRecebidoLabel = new javax.swing.JLabel();
+        valorRecebidoField = new javax.swing.JTextField();
+        trocoField = new javax.swing.JTextField();
+        trocoLabel = new javax.swing.JLabel();
+        btnFinalizar = new javax.swing.JButton();
+        contaCheckBox = new javax.swing.JCheckBox();
+        contaCheckBoxLabel = new javax.swing.JLabel();
+        selectClienteComboBox = new javax.swing.JComboBox<>();
+        bntCancelarFinalizacao = new javax.swing.JButton();
         wrap = new javax.swing.JPanel();
         sideMenu = new javax.swing.JPanel();
         sideMenuLogo = new javax.swing.JLabel();
@@ -90,6 +110,165 @@ public class Caixa extends javax.swing.JFrame {
         btnRemoverProduto = new javax.swing.JButton();
         btnFinalizarVenda = new javax.swing.JButton();
         totalLabel = new javax.swing.JLabel();
+
+        finalizarVenda.setMaximumSize(new java.awt.Dimension(357, 365));
+        finalizarVenda.setMinimumSize(new java.awt.Dimension(357, 365));
+        finalizarVenda.setModal(true);
+        finalizarVenda.setUndecorated(true);
+        finalizarVenda.setPreferredSize(new java.awt.Dimension(357, 365));
+        finalizarVenda.setResizable(false);
+
+        wrapFinalizarVenda.setBackground(new java.awt.Color(255, 255, 255));
+        wrapFinalizarVenda.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 80, 153)));
+        wrapFinalizarVenda.setMaximumSize(new java.awt.Dimension(357, 365));
+        wrapFinalizarVenda.setMinimumSize(new java.awt.Dimension(357, 365));
+        wrapFinalizarVenda.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            public void mouseDragged(java.awt.event.MouseEvent evt) {
+                wrapFinalizarVendaMouseDragged(evt);
+            }
+        });
+        wrapFinalizarVenda.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                wrapFinalizarVendaMousePressed(evt);
+            }
+        });
+
+        finalizarVendaIcon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/edu/ifrn/imgs/iconFinalizarVenda.png"))); // NOI18N
+
+        finalizarVendaHeader.setFont(new java.awt.Font("Roboto Medium", 0, 16)); // NOI18N
+        finalizarVendaHeader.setForeground(new java.awt.Color(37, 36, 34));
+        finalizarVendaHeader.setText("Finalizar venda");
+
+        jLabel2.setFont(new java.awt.Font("Roboto", 1, 18)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(51, 51, 51));
+        jLabel2.setText("VALOR TOTAL: R$ 00.00");
+
+        valorRecebidoLabel.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
+        valorRecebidoLabel.setForeground(new java.awt.Color(51, 51, 51));
+        valorRecebidoLabel.setText("Valor recebido:");
+
+        valorRecebidoField.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                valorRecebidoFieldKeyPressed(evt);
+            }
+        });
+
+        trocoLabel.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
+        trocoLabel.setForeground(new java.awt.Color(51, 51, 51));
+        trocoLabel.setText("Troco:");
+
+        btnFinalizar.setText("Finalizar");
+        btnFinalizar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnFinalizarActionPerformed(evt);
+            }
+        });
+
+        contaCheckBox.setBackground(new java.awt.Color(255, 255, 255));
+        contaCheckBox.setFont(new java.awt.Font("Roboto", 0, 15)); // NOI18N
+        contaCheckBox.setForeground(new java.awt.Color(51, 51, 51));
+        contaCheckBox.setMargin(new java.awt.Insets(0, 0, 0, 0));
+        contaCheckBox.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                contaCheckBoxStateChanged(evt);
+            }
+        });
+
+        contaCheckBoxLabel.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
+        contaCheckBoxLabel.setForeground(new java.awt.Color(51, 51, 51));
+        contaCheckBoxLabel.setText("Alocar a uma conta");
+        contaCheckBoxLabel.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                contaCheckBoxLabelPropertyChange(evt);
+            }
+        });
+
+        selectClienteComboBox.setMaximumRowCount(6);
+        selectClienteComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Selecionar cliente" }));
+        selectClienteComboBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                selectClienteComboBoxActionPerformed(evt);
+            }
+        });
+
+        bntCancelarFinalizacao.setText("Cancelar");
+        bntCancelarFinalizacao.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bntCancelarFinalizacaoActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout wrapFinalizarVendaLayout = new javax.swing.GroupLayout(wrapFinalizarVenda);
+        wrapFinalizarVenda.setLayout(wrapFinalizarVendaLayout);
+        wrapFinalizarVendaLayout.setHorizontalGroup(
+            wrapFinalizarVendaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(wrapFinalizarVendaLayout.createSequentialGroup()
+                .addGap(20, 20, 20)
+                .addGroup(wrapFinalizarVendaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(wrapFinalizarVendaLayout.createSequentialGroup()
+                        .addComponent(contaCheckBox)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(contaCheckBoxLabel))
+                    .addComponent(jLabel2)
+                    .addGroup(wrapFinalizarVendaLayout.createSequentialGroup()
+                        .addComponent(finalizarVendaIcon, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(finalizarVendaHeader))
+                    .addGroup(wrapFinalizarVendaLayout.createSequentialGroup()
+                        .addGroup(wrapFinalizarVendaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(valorRecebidoLabel)
+                            .addComponent(valorRecebidoField, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(15, 15, 15)
+                        .addGroup(wrapFinalizarVendaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(trocoLabel)
+                            .addComponent(trocoField, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(btnFinalizar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(selectClienteComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(bntCancelarFinalizacao, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(20, Short.MAX_VALUE))
+        );
+        wrapFinalizarVendaLayout.setVerticalGroup(
+            wrapFinalizarVendaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(wrapFinalizarVendaLayout.createSequentialGroup()
+                .addGap(20, 20, 20)
+                .addGroup(wrapFinalizarVendaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(wrapFinalizarVendaLayout.createSequentialGroup()
+                        .addComponent(trocoLabel)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(trocoField, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(wrapFinalizarVendaLayout.createSequentialGroup()
+                        .addGroup(wrapFinalizarVendaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(finalizarVendaHeader)
+                            .addComponent(finalizarVendaIcon, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(20, 20, 20)
+                        .addComponent(jLabel2)
+                        .addGap(20, 20, 20)
+                        .addComponent(valorRecebidoLabel)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(valorRecebidoField, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(18, 18, 18)
+                .addGroup(wrapFinalizarVendaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(contaCheckBox)
+                    .addComponent(contaCheckBoxLabel))
+                .addGap(20, 20, 20)
+                .addComponent(selectClienteComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(btnFinalizar, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(bntCancelarFinalizacao, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(20, Short.MAX_VALUE))
+        );
+
+        javax.swing.GroupLayout finalizarVendaLayout = new javax.swing.GroupLayout(finalizarVenda.getContentPane());
+        finalizarVenda.getContentPane().setLayout(finalizarVendaLayout);
+        finalizarVendaLayout.setHorizontalGroup(
+            finalizarVendaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(wrapFinalizarVenda, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+        );
+        finalizarVendaLayout.setVerticalGroup(
+            finalizarVendaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(wrapFinalizarVenda, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
@@ -207,14 +386,14 @@ public class Caixa extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Produto", "Quantidate", "Preço unitário", "Preço total"
+                "Código", "Produto", "Quantidate", "Preço unitário", "Preço total"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.Integer.class, java.lang.Double.class, java.lang.Double.class
+                java.lang.Object.class, java.lang.String.class, java.lang.Integer.class, java.lang.Double.class, java.lang.Double.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false
+                false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -235,16 +414,19 @@ public class Caixa extends javax.swing.JFrame {
         });
         scrollTableProdutosVenda.setViewportView(tableProdutosVenda);
         if (tableProdutosVenda.getColumnModel().getColumnCount() > 0) {
-            tableProdutosVenda.getColumnModel().getColumn(0).setResizable(false);
-            tableProdutosVenda.getColumnModel().getColumn(1).setMinWidth(100);
-            tableProdutosVenda.getColumnModel().getColumn(1).setPreferredWidth(100);
-            tableProdutosVenda.getColumnModel().getColumn(1).setMaxWidth(100);
+            tableProdutosVenda.getColumnModel().getColumn(0).setMinWidth(100);
+            tableProdutosVenda.getColumnModel().getColumn(0).setPreferredWidth(100);
+            tableProdutosVenda.getColumnModel().getColumn(0).setMaxWidth(100);
+            tableProdutosVenda.getColumnModel().getColumn(1).setResizable(false);
             tableProdutosVenda.getColumnModel().getColumn(2).setMinWidth(100);
             tableProdutosVenda.getColumnModel().getColumn(2).setPreferredWidth(100);
             tableProdutosVenda.getColumnModel().getColumn(2).setMaxWidth(100);
             tableProdutosVenda.getColumnModel().getColumn(3).setMinWidth(100);
             tableProdutosVenda.getColumnModel().getColumn(3).setPreferredWidth(100);
             tableProdutosVenda.getColumnModel().getColumn(3).setMaxWidth(100);
+            tableProdutosVenda.getColumnModel().getColumn(4).setMinWidth(100);
+            tableProdutosVenda.getColumnModel().getColumn(4).setPreferredWidth(100);
+            tableProdutosVenda.getColumnModel().getColumn(4).setMaxWidth(100);
         }
 
         tableProdutosVendasLabel.setBackground(new java.awt.Color(255, 255, 255));
@@ -387,6 +569,11 @@ public class Caixa extends javax.swing.JFrame {
         });
 
         btnFinalizarVenda.setText("Finalizar venda");
+        btnFinalizarVenda.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnFinalizarVendaActionPerformed(evt);
+            }
+        });
 
         totalLabel.setFont(new java.awt.Font("Roboto", 1, 18)); // NOI18N
         totalLabel.setForeground(new java.awt.Color(51, 51, 51));
@@ -503,7 +690,10 @@ public class Caixa extends javax.swing.JFrame {
     }//GEN-LAST:event_btnClientesActionPerformed
 
     private void tableProdutosVendaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableProdutosVendaMouseClicked
-
+        if (evt.getClickCount() <= 2) {
+            selected = tableProdutosVenda.getSelectedRow();
+            btnRemoverProduto.setVisible(true);
+        }
     }//GEN-LAST:event_tableProdutosVendaMouseClicked
 
     private void wrapMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_wrapMouseClicked
@@ -574,57 +764,50 @@ public class Caixa extends javax.swing.JFrame {
     }//GEN-LAST:event_subTotalFieldMouseClicked
 
     private void btnRemoverProdutoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemoverProdutoActionPerformed
-        // TODO add your handling code here:
+        int dialogButton = JOptionPane.YES_NO_OPTION;
+        int resultado = JOptionPane.showConfirmDialog(this, "Você realmente deseja remover este produto?", "AVISO", dialogButton);
+        if (resultado == JOptionPane.YES_OPTION) {
+            modeloProduto.removeRow(selected);
+            btnRemoverProduto.setVisible(false);
+            totalLabel.setText("TOTAL: R$ " + setValorVenda());
+        }
+        
+            
     }//GEN-LAST:event_btnRemoverProdutoActionPerformed
 
     private void btnBooleanVendaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBooleanVendaActionPerformed
         if (venda == false) {
-            
             venda = true;
-            
             produtoField.setEditable(true);
             quantidadeField.setEditable(true);
             totalLabel.setText("TOTAL: R$ 00.00");
             valorUniField.setEditable(true);
             subTotalField.setEditable(true);
             btnFinalizarVenda.setVisible(true);
-            
             tableProdutosVendasLabel.setForeground(Color.decode("#ffffff"));
             tableProdutosVendasLabel.setBackground(Color.decode("#005099"));
-            
             btnBooleanVenda.setText("Cancelar venda");
-            
             produtoField.requestFocus();
-            
         } else {
             int dialogButton = JOptionPane.YES_NO_OPTION;
             int resultado = JOptionPane.showConfirmDialog(this, "Você realmente deseja cancelar esta conta? Todos os dados serão perdidos", "AVISO", dialogButton);
             if (resultado == JOptionPane.YES_OPTION) {
                 venda = false;
-                
                 produtoField.setEditable(false);
                 produtoField.setText(null);
-                
                 quantidadeField.setEditable(false);
                 quantidadeField.setText("0");
-                
                 totalLabel.setText("TOTAL: R$ 00.00");
-                
                 valorUniField.setEditable(false);
                 valorUniField.setText("0");
-                
                 subTotalField.setEditable(false);
                 subTotalField.setText("0");
-                
                 btnFinalizarVenda.setVisible(false);
                 btnRemoverProduto.setVisible(false);
-                
                 tableProdutosVendasLabel.setForeground(Color.decode("#333333"));
                 tableProdutosVendasLabel.setBackground(Color.decode("#F0F0F0"));
-                
                 modeloProduto.setNumRows(0);
                 btnBooleanVenda.setText("Nova venda");
-                
             }else if (dialogButton == JOptionPane.NO_OPTION) {
                 
             }
@@ -659,9 +842,9 @@ public class Caixa extends javax.swing.JFrame {
             subTotalField.setText(Double.toString(subTotal));
             
             produtoField.requestFocus();
-            modeloProduto.addRow(new Object[]{produtoField.getText(), quantidade, valorUni, subTotal});
+            modeloProduto.addRow(new Object[]{p.getCodigo(), produtoField.getText(), quantidade, valorUni, subTotal});
             
-            setValorVenda();
+            totalLabel.setText("TOTAL: R$ " + setValorVenda());
             
         }
     }//GEN-LAST:event_quantidadeFieldKeyPressed
@@ -673,13 +856,78 @@ public class Caixa extends javax.swing.JFrame {
     private void produtoFieldFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_produtoFieldFocusGained
         produtoField.selectAll();
     }//GEN-LAST:event_produtoFieldFocusGained
+
+    private void selectClienteComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_selectClienteComboBoxActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_selectClienteComboBoxActionPerformed
+
+    private void btnFinalizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFinalizarActionPerformed
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");  
+        Date date = new Date();  
+        String codigo = formatter.format(date).toString();
+        double valorPago = Double.parseDouble(setValorVenda());
+        double valorRecebido = Double.parseDouble(valorRecebidoField.getText());
+        try {
+            date = formatter.parse(codigo);
+        } catch (ParseException ex) {
+            
+        }
+        
+        
+        
+    }//GEN-LAST:event_btnFinalizarActionPerformed
+
+    private void wrapFinalizarVendaMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_wrapFinalizarVendaMousePressed
+        mouseX = evt.getX();
+        mouseY = evt.getY();
+    }//GEN-LAST:event_wrapFinalizarVendaMousePressed
+
+    private void wrapFinalizarVendaMouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_wrapFinalizarVendaMouseDragged
+        int x = evt.getXOnScreen();
+        int y = evt.getYOnScreen();
+        finalizarVenda.setLocation(x - mouseX, y - mouseY);
+    }//GEN-LAST:event_wrapFinalizarVendaMouseDragged
+
+    private void btnFinalizarVendaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFinalizarVendaActionPerformed
+        if (modeloProduto.getRowCount() > 0){
+            jLabel2.setText(totalLabel.getText());
+            valorRecebidoField.setText(setValorVenda());
+            trocoField.setText("0");
+            finalizarVenda.setVisible(true);
+            finalizarVenda.setLocationRelativeTo(null);
+        }
+    }//GEN-LAST:event_btnFinalizarVendaActionPerformed
+
+    private void bntCancelarFinalizacaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bntCancelarFinalizacaoActionPerformed
+        finalizarVenda.dispose();
+    }//GEN-LAST:event_bntCancelarFinalizacaoActionPerformed
+
+    private void contaCheckBoxLabelPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_contaCheckBoxLabelPropertyChange
+        
+    }//GEN-LAST:event_contaCheckBoxLabelPropertyChange
+
+    private void contaCheckBoxStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_contaCheckBoxStateChanged
+        if (contaCheckBox.isSelected() == true) {
+            selectClienteComboBox.setEnabled(true);
+        } else {
+            selectClienteComboBox.setEnabled(false);
+        }
+    }//GEN-LAST:event_contaCheckBoxStateChanged
+
+    private void valorRecebidoFieldKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_valorRecebidoFieldKeyPressed
+        if (evt.getKeyCode() == 10) {
+            double valorVenda = Double.parseDouble(setValorVenda());
+            double valorRecebido = Double.parseDouble(valorRecebidoField.getText());
+            trocoField.setText(Double.toString(valorVenda - valorRecebido));
+        }
+    }//GEN-LAST:event_valorRecebidoFieldKeyPressed
     
-    public void setValorVenda(){
+    public String setValorVenda(){
         valorVenda = 0;
         for (int i = 0; i < modeloProduto.getRowCount(); i++) {
             valorVenda += Double.parseDouble(modeloProduto.getValueAt(i, 3).toString());
         }
-        totalLabel.setText("TOTAL: R$ " + Double.toString(valorVenda));
+        return Double.toString(valorVenda);
     }
     
     /**
@@ -721,23 +969,32 @@ public class Caixa extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton bntCancelarFinalizacao;
     private javax.swing.JButton btnBooleanVenda;
     private javax.swing.JButton btnCaixa;
     private javax.swing.JButton btnClientes;
     private javax.swing.JButton btnContas;
     private javax.swing.JButton btnDashboard;
     private javax.swing.JButton btnExit;
+    private javax.swing.JButton btnFinalizar;
     private javax.swing.JButton btnFinalizarVenda;
     private javax.swing.JButton btnIconizar;
     private javax.swing.JButton btnProdutos;
     private javax.swing.JButton btnRemoverProduto;
     private javax.swing.JButton btnVendas;
+    private javax.swing.JCheckBox contaCheckBox;
+    private javax.swing.JLabel contaCheckBoxLabel;
+    private javax.swing.JDialog finalizarVenda;
+    private javax.swing.JLabel finalizarVendaHeader;
+    private javax.swing.JLabel finalizarVendaIcon;
     private javax.swing.JLabel headerCaixa;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JTextField produtoField;
     private javax.swing.JLabel produtoLabel;
     private javax.swing.JTextField quantidadeField;
     private javax.swing.JLabel quantidadeLabel;
     private javax.swing.JScrollPane scrollTableProdutosVenda;
+    private javax.swing.JComboBox<String> selectClienteComboBox;
     private javax.swing.JSeparator separador;
     private javax.swing.JPanel sideMenu;
     private javax.swing.JLabel sideMenuLogo;
@@ -746,9 +1003,14 @@ public class Caixa extends javax.swing.JFrame {
     private javax.swing.JTable tableProdutosVenda;
     private javax.swing.JLabel tableProdutosVendasLabel;
     private javax.swing.JLabel totalLabel;
+    private javax.swing.JTextField trocoField;
+    private javax.swing.JLabel trocoLabel;
+    private javax.swing.JTextField valorRecebidoField;
+    private javax.swing.JLabel valorRecebidoLabel;
     private javax.swing.JTextField valorUniField;
     private javax.swing.JLabel valorUniLabel;
     private javax.swing.JPanel wrap;
+    private javax.swing.JPanel wrapFinalizarVenda;
     private javax.swing.JPanel wrapTableProdutosVenda;
     // End of variables declaration//GEN-END:variables
 }

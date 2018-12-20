@@ -112,8 +112,10 @@ public class Produtos extends javax.swing.JFrame {
         btnIconizar = new javax.swing.JButton();
 
         cadastrarProduto.setLocationByPlatform(true);
+        cadastrarProduto.setMaximumSize(new java.awt.Dimension(314, 449));
         cadastrarProduto.setMinimumSize(new java.awt.Dimension(314, 449));
         cadastrarProduto.setModal(true);
+        cadastrarProduto.setPreferredSize(new java.awt.Dimension(314, 449));
         cadastrarProduto.setResizable(false);
 
         wrapCadastarProduto.setBackground(new java.awt.Color(255, 255, 255));
@@ -699,9 +701,8 @@ public class Produtos extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnClientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClientesActionPerformed
-
-//        Clientes clientes = new Clientes();
-  //      clientes.setVisible(true);
+        //Clientes clientes = new Clientes();
+        //clientes.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnClientesActionPerformed
 
@@ -750,7 +751,6 @@ public class Produtos extends javax.swing.JFrame {
         }else{
             
         }
-        
     }//GEN-LAST:event_btnExcluirActionPerformed
 
     private void btnInserirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInserirActionPerformed
