@@ -16,15 +16,8 @@ public class teste {
     
     public static void main(String[] args){
         
-        String codigo;
-        Scanner teclado = new Scanner (System.in);
-        
-        ProdutoDAO produto = new ProdutoDAO();
-        
-        codigo = teclado.next();
-        
-        
-        System.out.println(produto.verificarProduto(codigo));
+        String count = "2018/12/20 00:36:07";
+        System.out.println(count.length());
         
         
         

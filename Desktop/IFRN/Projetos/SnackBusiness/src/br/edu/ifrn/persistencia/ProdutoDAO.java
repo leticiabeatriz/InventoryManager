@@ -35,7 +35,7 @@ public class ProdutoDAO extends Conexao{
     
     public ArrayList<Produto> selecionarProduto(String text){
         ArrayList<Produto> lista = new ArrayList<>();
-        String sql = "SELECT * FROM produtos WHERE nome LIKE '%"+text+"%' OR codigo = '"+text+"' ORDER BY nome";
+        String sql = "SELECT * FROM produtos WHERE nome LIKE '%"+text+"%' OR codigo LIKE '%"+text+"%' ORDER BY nome";
         try {
             conectar();
             ResultSet resultado = estado.executeQuery(sql);

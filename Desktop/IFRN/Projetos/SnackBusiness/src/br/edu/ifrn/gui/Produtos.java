@@ -36,7 +36,6 @@ public class Produtos extends javax.swing.JFrame {
     }
     
     public Produtos() {
-        
         initComponents();
         newCodigoField.setEditable(false);
         btnExcluir.setVisible(false);
@@ -91,12 +90,9 @@ public class Produtos extends javax.swing.JFrame {
         wrap = new javax.swing.JPanel();
         sideMenu = new javax.swing.JPanel();
         sideMenuLogo = new javax.swing.JLabel();
-        btnDashboard = new javax.swing.JButton();
         btnCaixa = new javax.swing.JButton();
         btnProdutos = new javax.swing.JButton();
-        btnClientes = new javax.swing.JButton();
         btnVendas = new javax.swing.JButton();
-        btnContas = new javax.swing.JButton();
         wrapTableProdutos = new javax.swing.JPanel();
         scrollTableProdutos = new javax.swing.JScrollPane();
         tableProdutos = new javax.swing.JTable();
@@ -112,10 +108,10 @@ public class Produtos extends javax.swing.JFrame {
         btnIconizar = new javax.swing.JButton();
 
         cadastrarProduto.setLocationByPlatform(true);
-        cadastrarProduto.setMaximumSize(new java.awt.Dimension(314, 449));
-        cadastrarProduto.setMinimumSize(new java.awt.Dimension(314, 449));
+        cadastrarProduto.setMaximumSize(new java.awt.Dimension(316, 449));
+        cadastrarProduto.setMinimumSize(new java.awt.Dimension(316, 449));
         cadastrarProduto.setModal(true);
-        cadastrarProduto.setPreferredSize(new java.awt.Dimension(314, 449));
+        cadastrarProduto.setPreferredSize(new java.awt.Dimension(316, 449));
         cadastrarProduto.setResizable(false);
 
         wrapCadastarProduto.setBackground(new java.awt.Color(255, 255, 255));
@@ -286,26 +282,36 @@ public class Produtos extends javax.swing.JFrame {
         newCodigoLabel.setText("Código:");
 
         newCodigoField.setFont(new java.awt.Font("Roboto", 0, 13)); // NOI18N
+        newCodigoField.setMaximumSize(new java.awt.Dimension(35, 280));
+        newCodigoField.setMinimumSize(new java.awt.Dimension(35, 280));
 
         newNomeLabel.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
         newNomeLabel.setForeground(new java.awt.Color(37, 36, 34));
         newNomeLabel.setText("Nome:");
 
         newNomeField.setFont(new java.awt.Font("Roboto", 0, 13)); // NOI18N
+        newNomeField.setMaximumSize(new java.awt.Dimension(35, 280));
+        newNomeField.setMinimumSize(new java.awt.Dimension(35, 280));
 
         newPrecoCompraLabel.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
         newPrecoCompraLabel.setForeground(new java.awt.Color(37, 36, 34));
         newPrecoCompraLabel.setText("Preço de compra:");
 
         newPrecoCompraField.setFont(new java.awt.Font("Roboto", 0, 13)); // NOI18N
+        newPrecoCompraField.setMaximumSize(new java.awt.Dimension(35, 280));
+        newPrecoCompraField.setMinimumSize(new java.awt.Dimension(35, 280));
 
         newPrecoVendaLabel.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
         newPrecoVendaLabel.setForeground(new java.awt.Color(37, 36, 34));
         newPrecoVendaLabel.setText("Preço de venda:");
 
         newPrecoVendaField.setFont(new java.awt.Font("Roboto", 0, 13)); // NOI18N
+        newPrecoVendaField.setMaximumSize(new java.awt.Dimension(35, 280));
+        newPrecoVendaField.setMinimumSize(new java.awt.Dimension(35, 280));
 
         btnAtualizar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/edu/ifrn/imgs/btnAtualizar.png"))); // NOI18N
+        btnAtualizar.setMaximumSize(new java.awt.Dimension(35, 280));
+        btnAtualizar.setMinimumSize(new java.awt.Dimension(35, 280));
         btnAtualizar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnAtualizarActionPerformed(evt);
@@ -313,6 +319,8 @@ public class Produtos extends javax.swing.JFrame {
         });
 
         btnCancelarUpdate.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/edu/ifrn/imgs/btnCancelarCadastro.png"))); // NOI18N
+        btnCancelarUpdate.setMaximumSize(new java.awt.Dimension(35, 280));
+        btnCancelarUpdate.setMinimumSize(new java.awt.Dimension(35, 280));
         btnCancelarUpdate.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCancelarUpdateActionPerformed(evt);
@@ -332,15 +340,15 @@ public class Produtos extends javax.swing.JFrame {
                         .addComponent(atualizarProdutosHeader))
                     .addComponent(newNomeLabel)
                     .addComponent(newCodigoLabel)
-                    .addComponent(newNomeField)
-                    .addComponent(btnCancelarUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addComponent(newNomeField, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnCancelarUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnAtualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(newCodigoField)
-                    .addComponent(newPrecoCompraField)
-                    .addComponent(newPrecoVendaField)
+                    .addComponent(newCodigoField, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(newPrecoCompraField, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(newPrecoVendaField, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(newPrecoVendaLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(newPrecoCompraLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(17, Short.MAX_VALUE))
+                .addGap(17, 17, 17))
         );
         wrapAtualizarProdutoLayout.setVerticalGroup(
             wrapAtualizarProdutoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -398,15 +406,6 @@ public class Produtos extends javax.swing.JFrame {
 
         sideMenuLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/edu/ifrn/imgs/sideMenuLogo.png"))); // NOI18N
 
-        btnDashboard.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/edu/ifrn/imgs/btnDashboard.png"))); // NOI18N
-        btnDashboard.setMaximumSize(new java.awt.Dimension(300, 40));
-        btnDashboard.setMinimumSize(new java.awt.Dimension(300, 40));
-        btnDashboard.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnDashboardActionPerformed(evt);
-            }
-        });
-
         btnCaixa.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/edu/ifrn/imgs/btnCaixa.png"))); // NOI18N
         btnCaixa.setMaximumSize(new java.awt.Dimension(300, 40));
         btnCaixa.setMinimumSize(new java.awt.Dimension(300, 40));
@@ -425,16 +424,6 @@ public class Produtos extends javax.swing.JFrame {
             }
         });
 
-        btnClientes.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/edu/ifrn/imgs/btnClientes.png"))); // NOI18N
-        btnClientes.setMaximumSize(new java.awt.Dimension(300, 40));
-        btnClientes.setMinimumSize(new java.awt.Dimension(300, 40));
-        btnClientes.setPreferredSize(new java.awt.Dimension(300, 49));
-        btnClientes.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnClientesActionPerformed(evt);
-            }
-        });
-
         btnVendas.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/edu/ifrn/imgs/btnVendas.png"))); // NOI18N
         btnVendas.setMaximumSize(new java.awt.Dimension(300, 40));
         btnVendas.setMinimumSize(new java.awt.Dimension(300, 40));
@@ -444,48 +433,30 @@ public class Produtos extends javax.swing.JFrame {
             }
         });
 
-        btnContas.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/edu/ifrn/imgs/btnContas.png"))); // NOI18N
-        btnContas.setMaximumSize(new java.awt.Dimension(300, 40));
-        btnContas.setMinimumSize(new java.awt.Dimension(300, 40));
-        btnContas.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnContasActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout sideMenuLayout = new javax.swing.GroupLayout(sideMenu);
         sideMenu.setLayout(sideMenuLayout);
         sideMenuLayout.setHorizontalGroup(
             sideMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(btnCaixa, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
             .addComponent(btnProdutos, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-            .addComponent(btnClientes, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(btnVendas, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-            .addComponent(btnContas, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-            .addComponent(btnDashboard, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
             .addGroup(sideMenuLayout.createSequentialGroup()
                 .addGap(75, 75, 75)
                 .addComponent(sideMenuLogo)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(75, Short.MAX_VALUE))
         );
         sideMenuLayout.setVerticalGroup(
             sideMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(sideMenuLayout.createSequentialGroup()
                 .addGap(67, 67, 67)
                 .addComponent(sideMenuLogo, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(btnDashboard, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, 0)
+                .addGap(30, 30, 30)
                 .addComponent(btnCaixa, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
                 .addComponent(btnProdutos, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
-                .addComponent(btnClientes, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, 0)
                 .addComponent(btnVendas, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, 0)
-                .addComponent(btnContas, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(138, Short.MAX_VALUE))
+                .addContainerGap(246, Short.MAX_VALUE))
         );
 
         wrapTableProdutos.setBackground(new java.awt.Color(255, 255, 255));
@@ -700,12 +671,6 @@ public class Produtos extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnClientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClientesActionPerformed
-        //Clientes clientes = new Clientes();
-        //clientes.setVisible(true);
-        this.dispose();
-    }//GEN-LAST:event_btnClientesActionPerformed
-
     private void pesquisaProutosCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_pesquisaProutosCaretUpdate
         selecionarProdutoComRest();
     }//GEN-LAST:event_pesquisaProutosCaretUpdate
@@ -829,34 +794,19 @@ public class Produtos extends javax.swing.JFrame {
         mouseY = evt.getY();
     }//GEN-LAST:event_wrapAtualizarProdutoMousePressed
 
-    private void btnDashboardActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDashboardActionPerformed
-        //Dashboard dashboard = new Dashboard();
-        //dashboard.setVisible(true);
-        this.setVisible(false);
-    }//GEN-LAST:event_btnDashboardActionPerformed
-
     private void btnCaixaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCaixaActionPerformed
-        Caixa caixa = new Caixa();
-        caixa.setVisible(true); 
+        new Caixa().setVisible(true); 
+        this.dispose();
     }//GEN-LAST:event_btnCaixaActionPerformed
 
     private void btnProdutosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProdutosActionPerformed
-        //Produtos produtos = new Produtos();
-        //produtos.setVisible(true);
-        this.setVisible(false);
+
     }//GEN-LAST:event_btnProdutosActionPerformed
 
     private void btnVendasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVendasActionPerformed
-        //Vendas vendas = new Vendas();
-        //vendas.setVisible(true);
-        this.setVisible(false);
+        new Vendas().setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_btnVendasActionPerformed
-
-    private void btnContasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnContasActionPerformed
-        //Contas contas = new Contas();
-        //contas.setVisible(true);
-        this.setVisible(false);
-    }//GEN-LAST:event_btnContasActionPerformed
 
     private void btnExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExitActionPerformed
         System.exit(0);
@@ -956,9 +906,6 @@ public class Produtos extends javax.swing.JFrame {
     private javax.swing.JButton btnCaixa;
     private javax.swing.JButton btnCancelarCadastro;
     private javax.swing.JButton btnCancelarUpdate;
-    private javax.swing.JButton btnClientes;
-    private javax.swing.JButton btnContas;
-    private javax.swing.JButton btnDashboard;
     private javax.swing.JButton btnExcluir;
     private javax.swing.JButton btnExit;
     private javax.swing.JButton btnIconizar;

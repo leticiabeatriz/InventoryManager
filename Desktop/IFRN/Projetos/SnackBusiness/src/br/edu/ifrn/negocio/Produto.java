@@ -6,6 +6,15 @@ public class Produto {
     private String nome;
     private double precoCompra;
     private double precoVenda;
+    private int qtdProduto;
+
+    public int getQtdProduto() {
+        return qtdProduto;
+    }
+
+    public void setQtdProduto(int qtdProduto) {
+        this.qtdProduto = qtdProduto;
+    }
     
     public String getCodigo() {
         return codigo;
