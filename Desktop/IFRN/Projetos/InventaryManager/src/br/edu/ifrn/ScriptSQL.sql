@@ -11,13 +11,13 @@ CREATE TABLE fornecedores(
     primary key(cnpj)
 );
 
-CREATE TABLE produtosFornecedor(
-	cnpj CHAR(18),
-    preco DECIMAL,
-    codigo VARCHAR(30),
-    PRIMARY KEY(cnpj, codigo),
-    FOREIGN KEY (cnpj) REFERENCES fornecedor(cnpj),
-    FOREIGN KEY (codigo) REFERENCES produto(codigo),    
+CREATE TABLE produtosFornecedores(
+	cnpjFornecedor CHAR(18),
+    precoCompra DECIMAL,
+    codigoProduto VARCHAR(30),
+    PRIMARY KEY(cnpjFornecedor, codigoProduto),
+    FOREIGN KEY (cnpjFornecedor) REFERENCES fornecedor(cnpj),
+    FOREIGN KEY (codigoProduto) REFERENCES produto(codigo)    
 );
 
 CREATE TABLE Produtos (
@@ -38,7 +38,7 @@ DROP DATABASE inventorymanager;
 DROP TABLE fornecedores;
 DROP TABLE telefoneFornecedor;
 DROP TABLE produtos;
-DROP TABLE produtosFornecedor;
+DROP TABLE produtosFornecedores;
 
 /*QUERYS*/
 SELECT * FROM produtos;

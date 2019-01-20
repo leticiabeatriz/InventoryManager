@@ -6,10 +6,14 @@
 package br.edu.ifrn.gui;
 
 import br.edu.ifrn.negocio.Fornecedor;
+import br.edu.ifrn.negocio.Produto;
+import br.edu.ifrn.negocio.ProdutoFornecedor;
 import br.edu.ifrn.persistencia.FornecedorDAO;
 import br.edu.ifrn.persistencia.ProdutoDAO;
+import br.edu.ifrn.persistencia.ProdutoFornecedorDAO;
 import java.awt.Color;
 import java.awt.Font;
+import java.math.BigDecimal;
 import javax.swing.BorderFactory;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -23,16 +27,21 @@ public class Produtos extends javax.swing.JFrame {
 
     DefaultTableModel modeloTableProdutos;
     DefaultTableModel modeloTablePrecoCompra;
+    DefaultTableModel modeloTableProdutoFornecedores;
     int mouseX;
     int mouseY;
+    int selectedRow;
+    boolean edicao;
 
     public Produtos() {
         initComponents();
         modeloTableProdutos = (DefaultTableModel) tableProdutos.getModel();
         modeloTablePrecoCompra = (DefaultTableModel) tablePrecoCompra.getModel();
+        modeloTableProdutoFornecedores = (DefaultTableModel) tableFornecedores.getModel();
         selecionarFornecedores();
         estilizarBtns();
         estilizarComponets();
+        selecionarProdutos();
     }
 
     /**
@@ -56,6 +65,19 @@ public class Produtos extends javax.swing.JFrame {
         tablePrecoCompra = new javax.swing.JTable();
         cadastrarProdutoBtnCadastrar = new javax.swing.JButton();
         cadastrarProdutoBtnFechar = new javax.swing.JButton();
+        cadastrarProdutoLabel = new javax.swing.JLabel();
+        editarProduto = new javax.swing.JDialog();
+        wrapCadastrarProduto1 = new javax.swing.JPanel();
+        editarProdutoHeader = new javax.swing.JLabel();
+        editarProdutoCodigoLabel = new javax.swing.JLabel();
+        editarProdutoCodigoField = new javax.swing.JTextField();
+        editarProdutoNomeLabel = new javax.swing.JLabel();
+        editarProdutoNomeField = new javax.swing.JTextField();
+        editarProdutoFornecedoresLabel = new javax.swing.JLabel();
+        scrollTableFornecedores = new javax.swing.JScrollPane();
+        tableFornecedores = new javax.swing.JTable();
+        editarProdutoBtnAtualizar = new javax.swing.JButton();
+        editarProdutoBtnFechar = new javax.swing.JButton();
         wrap = new javax.swing.JPanel();
         header = new javax.swing.JPanel();
         btnExit = new javax.swing.JButton();
@@ -80,10 +102,11 @@ public class Produtos extends javax.swing.JFrame {
         instructions = new javax.swing.JLabel();
         pesquisaProdutos = new javax.swing.JTextField();
 
-        cadastrarProduto.setMaximumSize(new java.awt.Dimension(577, 440));
-        cadastrarProduto.setMinimumSize(new java.awt.Dimension(577, 440));
+        cadastrarProduto.setMaximumSize(new java.awt.Dimension(577, 482));
+        cadastrarProduto.setMinimumSize(new java.awt.Dimension(577, 482));
+        cadastrarProduto.setModal(true);
         cadastrarProduto.setUndecorated(true);
-        cadastrarProduto.setPreferredSize(new java.awt.Dimension(577, 440));
+        cadastrarProduto.setPreferredSize(new java.awt.Dimension(577, 482));
         cadastrarProduto.setResizable(false);
 
         wrapCadastrarProduto.setBackground(new java.awt.Color(255, 255, 255));
@@ -109,6 +132,12 @@ public class Produtos extends javax.swing.JFrame {
         cadastrarProdutoCodigoLabel.setFont(new java.awt.Font("Raleway", 0, 12)); // NOI18N
         cadastrarProdutoCodigoLabel.setText("Código:");
 
+        cadastrarProdutoCodigoField.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                cadastrarProdutoCodigoFieldKeyPressed(evt);
+            }
+        });
+
         cadastrarProdutoNomeLabel.setFont(new java.awt.Font("Raleway", 0, 12)); // NOI18N
         cadastrarProdutoNomeLabel.setText("Nome:");
 
@@ -125,7 +154,7 @@ public class Produtos extends javax.swing.JFrame {
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Boolean.class, java.lang.Object.class, java.lang.Float.class
+                java.lang.Boolean.class, java.lang.Object.class, java.lang.Double.class
             };
             boolean[] canEdit = new boolean [] {
                 true, false, true
@@ -144,6 +173,7 @@ public class Produtos extends javax.swing.JFrame {
         scrollTablePrecoCompra.setViewportView(tablePrecoCompra);
         if (tablePrecoCompra.getColumnModel().getColumnCount() > 0) {
             tablePrecoCompra.getColumnModel().getColumn(0).setResizable(false);
+            tablePrecoCompra.getColumnModel().getColumn(0).setHeaderValue("Selecionar");
             tablePrecoCompra.getColumnModel().getColumn(1).setResizable(false);
             tablePrecoCompra.getColumnModel().getColumn(2).setResizable(false);
         }
@@ -161,6 +191,8 @@ public class Produtos extends javax.swing.JFrame {
                 cadastrarProdutoBtnFecharActionPerformed(evt);
             }
         });
+
+        cadastrarProdutoLabel.setFont(new java.awt.Font("Raleway", 0, 12)); // NOI18N
 
         javax.swing.GroupLayout wrapCadastrarProdutoLayout = new javax.swing.GroupLayout(wrapCadastrarProduto);
         wrapCadastrarProduto.setLayout(wrapCadastrarProdutoLayout);
@@ -183,7 +215,8 @@ public class Produtos extends javax.swing.JFrame {
                         .addGroup(wrapCadastrarProdutoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(cadastrarProdutoNomeLabel)
                             .addComponent(cadastrarProdutoNomeField, javax.swing.GroupLayout.PREFERRED_SIZE, 255, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(scrollTablePrecoCompra))
+                    .addComponent(scrollTablePrecoCompra)
+                    .addComponent(cadastrarProdutoLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(25, Short.MAX_VALUE))
         );
         wrapCadastrarProdutoLayout.setVerticalGroup(
@@ -203,6 +236,8 @@ public class Produtos extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(cadastrarProdutoFornecedorLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(cadastrarProdutoLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(scrollTablePrecoCompra, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(wrapCadastrarProdutoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -220,6 +255,148 @@ public class Produtos extends javax.swing.JFrame {
         cadastrarProdutoLayout.setVerticalGroup(
             cadastrarProdutoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(wrapCadastrarProduto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+        );
+
+        editarProduto.setMinimumSize(new java.awt.Dimension(577, 482));
+        editarProduto.setModal(true);
+        editarProduto.setUndecorated(true);
+        editarProduto.setResizable(false);
+
+        wrapCadastrarProduto1.setBackground(new java.awt.Color(255, 255, 255));
+        wrapCadastrarProduto1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(39, 162, 67)));
+        wrapCadastrarProduto1.setMaximumSize(new java.awt.Dimension(577, 440));
+        wrapCadastrarProduto1.setMinimumSize(new java.awt.Dimension(577, 440));
+
+        editarProdutoHeader.setFont(new java.awt.Font("Raleway SemiBold", 0, 16)); // NOI18N
+        editarProdutoHeader.setForeground(new java.awt.Color(255, 255, 255));
+        editarProdutoHeader.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/edu/ifrn/imgs/editarProdutoHeaderIcon.png"))); // NOI18N
+        editarProdutoHeader.setText("Editar produto");
+        editarProdutoHeader.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            public void mouseDragged(java.awt.event.MouseEvent evt) {
+                editarProdutoHeaderMouseDragged(evt);
+            }
+        });
+        editarProdutoHeader.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                editarProdutoHeaderMousePressed(evt);
+            }
+        });
+
+        editarProdutoCodigoLabel.setFont(new java.awt.Font("Raleway", 0, 12)); // NOI18N
+        editarProdutoCodigoLabel.setText("Código:");
+
+        editarProdutoCodigoField.setEditable(false);
+
+        editarProdutoNomeLabel.setFont(new java.awt.Font("Raleway", 0, 12)); // NOI18N
+        editarProdutoNomeLabel.setText("Nome:");
+
+        editarProdutoFornecedoresLabel.setFont(new java.awt.Font("Raleway", 0, 12)); // NOI18N
+        editarProdutoFornecedoresLabel.setText("Fornecedores:");
+
+        tableFornecedores.setFont(new java.awt.Font("Raleway", 0, 12)); // NOI18N
+        tableFornecedores.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null}
+            },
+            new String [] {
+                "Fornecedor", "Preço de compra"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Object.class, java.lang.Double.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        tableFornecedores.setGridColor(new java.awt.Color(204, 204, 204));
+        tableFornecedores.setRowHeight(25);
+        scrollTableFornecedores.setViewportView(tableFornecedores);
+        if (tableFornecedores.getColumnModel().getColumnCount() > 0) {
+            tableFornecedores.getColumnModel().getColumn(0).setResizable(false);
+            tableFornecedores.getColumnModel().getColumn(1).setResizable(false);
+        }
+
+        editarProdutoBtnAtualizar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/edu/ifrn/imgs/cPBtnCadastrar.png"))); // NOI18N
+        editarProdutoBtnAtualizar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                editarProdutoBtnAtualizarActionPerformed(evt);
+            }
+        });
+
+        editarProdutoBtnFechar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/edu/ifrn/imgs/cPBtnFechar.png"))); // NOI18N
+        editarProdutoBtnFechar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                editarProdutoBtnFecharActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout wrapCadastrarProduto1Layout = new javax.swing.GroupLayout(wrapCadastrarProduto1);
+        wrapCadastrarProduto1.setLayout(wrapCadastrarProduto1Layout);
+        wrapCadastrarProduto1Layout.setHorizontalGroup(
+            wrapCadastrarProduto1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(editarProdutoHeader, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(wrapCadastrarProduto1Layout.createSequentialGroup()
+                .addGap(25, 25, 25)
+                .addGroup(wrapCadastrarProduto1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(wrapCadastrarProduto1Layout.createSequentialGroup()
+                        .addComponent(editarProdutoBtnAtualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 255, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(15, 15, 15)
+                        .addComponent(editarProdutoBtnFechar, javax.swing.GroupLayout.PREFERRED_SIZE, 255, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(editarProdutoFornecedoresLabel)
+                    .addGroup(wrapCadastrarProduto1Layout.createSequentialGroup()
+                        .addGroup(wrapCadastrarProduto1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(editarProdutoCodigoLabel)
+                            .addComponent(editarProdutoCodigoField, javax.swing.GroupLayout.PREFERRED_SIZE, 255, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(15, 15, 15)
+                        .addGroup(wrapCadastrarProduto1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(editarProdutoNomeLabel)
+                            .addComponent(editarProdutoNomeField, javax.swing.GroupLayout.PREFERRED_SIZE, 255, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(scrollTableFornecedores))
+                .addContainerGap(25, Short.MAX_VALUE))
+        );
+        wrapCadastrarProduto1Layout.setVerticalGroup(
+            wrapCadastrarProduto1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(wrapCadastrarProduto1Layout.createSequentialGroup()
+                .addComponent(editarProdutoHeader, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addGroup(wrapCadastrarProduto1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(wrapCadastrarProduto1Layout.createSequentialGroup()
+                        .addComponent(editarProdutoCodigoLabel)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(editarProdutoCodigoField, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(wrapCadastrarProduto1Layout.createSequentialGroup()
+                        .addComponent(editarProdutoNomeLabel)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(editarProdutoNomeField, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(51, 51, 51)
+                .addComponent(editarProdutoFornecedoresLabel)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(scrollTableFornecedores, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(wrapCadastrarProduto1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(editarProdutoBtnAtualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(editarProdutoBtnFechar, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(0, 25, Short.MAX_VALUE))
+        );
+
+        javax.swing.GroupLayout editarProdutoLayout = new javax.swing.GroupLayout(editarProduto.getContentPane());
+        editarProduto.getContentPane().setLayout(editarProdutoLayout);
+        editarProdutoLayout.setHorizontalGroup(
+            editarProdutoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(wrapCadastrarProduto1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+        );
+        editarProdutoLayout.setVerticalGroup(
+            editarProdutoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(wrapCadastrarProduto1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -364,18 +541,36 @@ public class Produtos extends javax.swing.JFrame {
 
         tableProdutos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "Código", "Nome", "Fornecedores"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         tableProdutos.setGridColor(new java.awt.Color(255, 255, 255));
         tableProdutos.setRowHeight(25);
+        tableProdutos.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tableProdutosMouseClicked(evt);
+            }
+        });
         scrollTableProdutos.setViewportView(tableProdutos);
+        if (tableProdutos.getColumnModel().getColumnCount() > 0) {
+            tableProdutos.getColumnModel().getColumn(0).setPreferredWidth(150);
+            tableProdutos.getColumnModel().getColumn(1).setResizable(false);
+            tableProdutos.getColumnModel().getColumn(2).setResizable(false);
+        }
 
         javax.swing.GroupLayout wrapTableProdutosLayout = new javax.swing.GroupLayout(wrapTableProdutos);
         wrapTableProdutos.setLayout(wrapTableProdutosLayout);
@@ -410,6 +605,16 @@ public class Produtos extends javax.swing.JFrame {
         pesquisaProdutos.setFont(new java.awt.Font("Raleway", 0, 12)); // NOI18N
         pesquisaProdutos.setText("Pesquisar");
         pesquisaProdutos.setMaximumSize(new java.awt.Dimension(400, 40));
+        pesquisaProdutos.addCaretListener(new javax.swing.event.CaretListener() {
+            public void caretUpdate(javax.swing.event.CaretEvent evt) {
+                pesquisaProdutosCaretUpdate(evt);
+            }
+        });
+        pesquisaProdutos.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                pesquisaProdutosMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout wrapLayout = new javax.swing.GroupLayout(wrap);
         wrap.setLayout(wrapLayout);
@@ -498,12 +703,15 @@ public class Produtos extends javax.swing.JFrame {
     }//GEN-LAST:event_btnFornecedoresActionPerformed
 
     private void btnCadastrarProdutoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCadastrarProdutoActionPerformed
+        cadastrarProduto.setResizable(false);
+        cadastrarProduto.setLocationRelativeTo(null);
         cadastrarProduto.setVisible(true);
-        cadastrarProduto.setLocationRelativeTo(this);
     }//GEN-LAST:event_btnCadastrarProdutoActionPerformed
 
     private void cadastrarProdutoBtnFecharActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cadastrarProdutoBtnFecharActionPerformed
         cadastrarProduto.dispose();
+        cadastrarProdutoNomeField.setText(null);
+        cadastrarProdutoCodigoField.setText(null);
     }//GEN-LAST:event_cadastrarProdutoBtnFecharActionPerformed
 
     private void cadastrarProdutoHeaderMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cadastrarProdutoHeaderMousePressed
@@ -520,27 +728,110 @@ public class Produtos extends javax.swing.JFrame {
     private void cadastrarProdutoBtnCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cadastrarProdutoBtnCadastrarActionPerformed
         String nome = cadastrarProdutoNomeField.getText();
         String codigo = cadastrarProdutoCodigoField.getText();
-
-        if (nome.isEmpty() || codigo.isEmpty()) {
+        int fornecedorCount = 0;
+        int precoVazio = 0;
+        if (new ProdutoDAO().verificarCodigo(cadastrarProdutoCodigoField.getText()) != 0) {
+            JOptionPane.showMessageDialog(cadastrarProduto, "Este código de barras já foi cadastrado");
+            cadastrarProdutoCodigoField.setText("");
+        } else if (nome.isEmpty() || codigo.isEmpty()) {
             JOptionPane.showMessageDialog(null, "Preencha todos os campos");
         } else {
             for (int i = 0; i < tablePrecoCompra.getRowCount(); i++) {
-                try {  
+                try {
                     if ((boolean) tablePrecoCompra.getValueAt(i, 0)) {
-                        
+                        fornecedorCount += 1;
+                        if (tablePrecoCompra.getValueAt(i, 2) == null) {
+                            precoVazio += 1;
+                        }
                     }
                 } catch (NullPointerException ex) {
-                    
-                } 
+
+                }
+            }
+            if (fornecedorCount == 0) {
+                JOptionPane.showMessageDialog(null, "Selecione pelo menos um fornecedor");
+            } else if (precoVazio > 0) {
+                JOptionPane.showMessageDialog(null, "Existe(m) algum(ns) campo(s) de preços vazio(s)");
+            } else {
+                new ProdutoDAO().cadastrarProduto(codigo, nome);
+                for (int i = 0; i < tablePrecoCompra.getRowCount(); i++) {
+                    try {
+                        if ((boolean) tablePrecoCompra.getValueAt(i, 0)) {
+                            String cnpjFornecedor = (String) tablePrecoCompra.getValueAt(i, 1);
+                            cnpjFornecedor = new FornecedorDAO().nomeParseCnpj(cnpjFornecedor.trim());
+                            try {
+                                double p = (double) tablePrecoCompra.getValueAt(i, 2);
+                                BigDecimal preco = BigDecimal.valueOf(p);
+                                new ProdutoFornecedorDAO().cadastrarProdutosFornecedor(codigo, cnpjFornecedor, preco);
+                            } catch (NumberFormatException ex) {
+                                System.out.println("O preço inserido não segue a formatação correta");
+                            }
+                        }
+                    } catch (NullPointerException ex) {
+
+                    }
+                }
             }
         }
     }//GEN-LAST:event_cadastrarProdutoBtnCadastrarActionPerformed
 
+    private void cadastrarProdutoCodigoFieldKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_cadastrarProdutoCodigoFieldKeyPressed
+        if (evt.getKeyCode() == 10) {
+            if (new ProdutoDAO().verificarCodigo(cadastrarProdutoCodigoField.getText()) != 0) {
+                cadastrarProdutoCodigoField.setText("");
+                JOptionPane.showMessageDialog(cadastrarProduto, "Este código de barras já foi cadastrado");
+            } else {
+                cadastrarProdutoNomeField.requestFocus();
+            }
+        }
+    }//GEN-LAST:event_cadastrarProdutoCodigoFieldKeyPressed
+
+    private void editarProdutoHeaderMouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_editarProdutoHeaderMouseDragged
+        int x = evt.getXOnScreen();
+        int y = evt.getYOnScreen();
+        editarProduto.setLocation(x - mouseX, y - mouseY);
+    }//GEN-LAST:event_editarProdutoHeaderMouseDragged
+
+    private void editarProdutoHeaderMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_editarProdutoHeaderMousePressed
+        mouseX = evt.getX();
+        mouseY = evt.getY();
+    }//GEN-LAST:event_editarProdutoHeaderMousePressed
+
+    private void editarProdutoBtnAtualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editarProdutoBtnAtualizarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_editarProdutoBtnAtualizarActionPerformed
+
+    private void editarProdutoBtnFecharActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editarProdutoBtnFecharActionPerformed
+        editarProduto.dispose();
+    }//GEN-LAST:event_editarProdutoBtnFecharActionPerformed
+
+    private void tableProdutosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableProdutosMouseClicked
+        selectedRow = tableProdutos.getSelectedRow();
+        if (evt.getClickCount() >= 2 && selectedRow >= 0) {
+            String codigo = (String) tableProdutos.getValueAt(selectedRow, 0);
+            this.setFornecedoresProduto(codigo.trim());
+            editarProduto.setResizable(false);
+            editarProduto.setLocationRelativeTo(null);
+            editarProduto.setVisible(true);
+        }
+    }//GEN-LAST:event_tableProdutosMouseClicked
+
+    private void pesquisaProdutosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pesquisaProdutosMouseClicked
+        pesquisaProdutos.setText("");
+    }//GEN-LAST:event_pesquisaProdutosMouseClicked
+
+    private void pesquisaProdutosCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_pesquisaProdutosCaretUpdate
+        selecionarProdutosComRest();
+    }//GEN-LAST:event_pesquisaProdutosCaretUpdate
+
     private void estilizarComponets() {
+        cadastrarProdutoLabel.setText("<html><body>- É necessário selecionar pelo menos um fornecedor. <br>- Usar ponto (1.99) e não vírgula (1,99) para separar valores decimais.</body></html>");
         tablePrecoCompra.setFillsViewportHeight(true);
-        cadastrarProdutoNomeField.setBorder(BorderFactory.createCompoundBorder(pesquisaProdutos.getBorder(), BorderFactory.createEmptyBorder(5, 10, 5, 5)));
-        cadastrarProdutoHeader.setBackground(Color.decode("#00B050"));
-        cadastrarProdutoCodigoField.setBorder(BorderFactory.createCompoundBorder(pesquisaProdutos.getBorder(), BorderFactory.createEmptyBorder(5, 10, 5, 5)));
+        cadastrarProdutoNomeField.setBorder(BorderFactory.createCompoundBorder(cadastrarProdutoNomeField.getBorder(), BorderFactory.createEmptyBorder(5, 10, 5, 5)));
+        editarProdutoNomeField.setBorder(BorderFactory.createCompoundBorder(editarProdutoNomeField.getBorder(), BorderFactory.createEmptyBorder(5, 10, 5, 5)));
+        editarProdutoHeader.setBackground(Color.decode("#0077F7"));
+        editarProdutoHeader.setOpaque(true);
+        cadastrarProdutoCodigoField.setBorder(BorderFactory.createCompoundBorder(cadastrarProdutoCodigoField.getBorder(), BorderFactory.createEmptyBorder(5, 10, 5, 5)));
         cadastrarProdutoHeader.setBackground(Color.decode("#00B050"));
         cadastrarProdutoHeader.setOpaque(true);
         pesquisaProdutos.setBorder(BorderFactory.createCompoundBorder(pesquisaProdutos.getBorder(), BorderFactory.createEmptyBorder(5, 10, 5, 5)));
@@ -555,8 +846,8 @@ public class Produtos extends javax.swing.JFrame {
         JTableHeader tableProdutosHeader = tableProdutos.getTableHeader();
         tableProdutosHeader.setFont((new Font("Raleway", 0, 13)));
         JTableHeader tablePrecoCompraHeader = tablePrecoCompra.getTableHeader();
-        tablePrecoCompraHeader.setFont((new Font("Raleway", 0, 13)));
-        instructions.setText("<html><body>- Clique duas vezes em um produto para alterá-lo.</body></html>");
+        tablePrecoCompraHeader.setFont((new Font("Raleway SemiBold", 0, 12)));
+        instructions.setText("<html><body>- Clique duas vezes em um produto para detalhá-lo.</body></html>");
     }
 
     private void estilizarBtns() {
@@ -587,7 +878,8 @@ public class Produtos extends javax.swing.JFrame {
         btnExit.setFocusPainted(false);
         cadastrarProdutoBtnCadastrar.setFocusPainted(false);
         cadastrarProdutoBtnFechar.setFocusPainted(false);
-
+        editarProdutoBtnAtualizar.setFocusPainted(false);
+        editarProdutoBtnFechar.setFocusPainted(false);
     }
 
     public void selecionarFornecedores() {
@@ -604,6 +896,36 @@ public class Produtos extends javax.swing.JFrame {
         tablePrecoCompra.getColumnModel().getColumn(2).setPreferredWidth(130);
         tablePrecoCompra.getColumnModel().getColumn(2).setMinWidth(130);
         tablePrecoCompra.getColumnModel().getColumn(2).setMaxWidth(130);
+    }
+
+    public void setFornecedoresProduto(String codigo) {
+        modeloTableProdutoFornecedores.setNumRows(0);
+        for (ProdutoFornecedor pf : new ProdutoFornecedorDAO().selecionarFornecedoresProduto(codigo)) {
+            modeloTableProdutoFornecedores.addRow(new Object[]{""});
+        }
+        tableFornecedores.getColumnModel().getColumn(1).setPreferredWidth(130);
+        tableFornecedores.getColumnModel().getColumn(1).setMinWidth(130);
+        tableFornecedores.getColumnModel().getColumn(1).setMaxWidth(130);
+    }
+
+    public void selecionarProdutos() {
+        modeloTableProdutos.setNumRows(0);
+        for (Produto p : new ProdutoDAO().selecionarProdutos()) {
+            modeloTableProdutos.addRow(new Object[]{" " + p.getCodigo(), " " + p.getNome(), " " + new ProdutoFornecedorDAO().getFornecedoresJuntos(p.getCodigo())});
+        }
+        tableProdutos.getColumnModel().getColumn(0).setPreferredWidth(300);
+        tableProdutos.getColumnModel().getColumn(0).setMinWidth(300);
+        tableProdutos.getColumnModel().getColumn(0).setMaxWidth(300);
+    }
+
+    public void selecionarProdutosComRest() {
+        modeloTableProdutos.setNumRows(0);
+        for (Produto p : new ProdutoDAO().selecionarProdutos(pesquisaProdutos.getText())) {
+            modeloTableProdutos.addRow(new Object[]{" " + p.getCodigo(), " " + p.getNome(), " " + new ProdutoFornecedorDAO().getFornecedoresJuntos(p.getCodigo())});
+        }
+        tableProdutos.getColumnModel().getColumn(0).setPreferredWidth(300);
+        tableProdutos.getColumnModel().getColumn(0).setMinWidth(300);
+        tableProdutos.getColumnModel().getColumn(0).setMaxWidth(300);
     }
 
     /**
@@ -657,8 +979,18 @@ public class Produtos extends javax.swing.JFrame {
     private javax.swing.JLabel cadastrarProdutoCodigoLabel;
     private javax.swing.JLabel cadastrarProdutoFornecedorLabel;
     private javax.swing.JLabel cadastrarProdutoHeader;
+    private javax.swing.JLabel cadastrarProdutoLabel;
     private javax.swing.JTextField cadastrarProdutoNomeField;
     private javax.swing.JLabel cadastrarProdutoNomeLabel;
+    private javax.swing.JDialog editarProduto;
+    private javax.swing.JButton editarProdutoBtnAtualizar;
+    private javax.swing.JButton editarProdutoBtnFechar;
+    private javax.swing.JTextField editarProdutoCodigoField;
+    private javax.swing.JLabel editarProdutoCodigoLabel;
+    private javax.swing.JLabel editarProdutoFornecedoresLabel;
+    private javax.swing.JLabel editarProdutoHeader;
+    private javax.swing.JTextField editarProdutoNomeField;
+    private javax.swing.JLabel editarProdutoNomeLabel;
     private javax.swing.JPanel header;
     private javax.swing.JLabel headerIcon;
     private javax.swing.JLabel headerLabel;
@@ -669,14 +1001,18 @@ public class Produtos extends javax.swing.JFrame {
     private javax.swing.JTextField pesquisaProdutos;
     private javax.swing.JSeparator produtosDivisor;
     private javax.swing.JLabel produtosLabel;
+    private javax.swing.JScrollPane scrollTableFornecedores;
     private javax.swing.JScrollPane scrollTablePrecoCompra;
     private javax.swing.JScrollPane scrollTableProdutos;
     private javax.swing.JPanel sideMenu;
+    private javax.swing.JTable tableFornecedores;
     private javax.swing.JTable tablePrecoCompra;
     private javax.swing.JTable tableProdutos;
     private javax.swing.JLabel tableProdutosLabel;
     private javax.swing.JPanel wrap;
     private javax.swing.JPanel wrapCadastrarProduto;
+    private javax.swing.JPanel wrapCadastrarProduto1;
     private javax.swing.JPanel wrapTableProdutos;
     // End of variables declaration//GEN-END:variables
+
 }
