@@ -12,10 +12,15 @@ import br.edu.ifrn.persistencia.FornecedorDAO;
 import br.edu.ifrn.persistencia.ProdutoDAO;
 import br.edu.ifrn.persistencia.ProdutoFornecedorDAO;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Font;
+import java.awt.geom.RoundRectangle2D;
 import java.math.BigDecimal;
 import javax.swing.BorderFactory;
+import javax.swing.Icon;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 
@@ -25,13 +30,15 @@ import javax.swing.table.JTableHeader;
  */
 public class Produtos extends javax.swing.JFrame {
 
-    DefaultTableModel modeloTableProdutos;
-    DefaultTableModel modeloTablePrecoCompra;
-    DefaultTableModel modeloTableProdutoFornecedores;
-    int mouseX;
-    int mouseY;
-    int selectedRow;
-    boolean edicao;
+    private DefaultTableModel modeloTableProdutos;
+    private DefaultTableModel modeloTablePrecoCompra;
+    private DefaultTableModel modeloTableProdutoFornecedores;
+    private int mouseX;
+    private int mouseY;
+    private int selectedRow;
+    private boolean edicao;
+    private boolean fieldAlteracao;
+    private Produto produto;
 
     public Produtos() {
         initComponents();
@@ -78,19 +85,18 @@ public class Produtos extends javax.swing.JFrame {
         tableFornecedores = new javax.swing.JTable();
         editarProdutoBtnAtualizar = new javax.swing.JButton();
         editarProdutoBtnFechar = new javax.swing.JButton();
+        btnMudarPreco = new javax.swing.JToggleButton();
+        btnExcluirFornecedor = new javax.swing.JToggleButton();
         wrap = new javax.swing.JPanel();
         header = new javax.swing.JPanel();
         btnExit = new javax.swing.JButton();
         headerIcon = new javax.swing.JLabel();
         headerLabel = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
-        jLabel2 = new javax.swing.JLabel();
         sideMenu = new javax.swing.JPanel();
         btnDashboard = new javax.swing.JButton();
         btnCompras = new javax.swing.JButton();
         btnProdutos = new javax.swing.JButton();
         btnFornecedores = new javax.swing.JButton();
-        jLabel1 = new javax.swing.JLabel();
         produtosLabel = new javax.swing.JLabel();
         produtosDivisor = new javax.swing.JSeparator();
         wrapTableProdutos = new javax.swing.JPanel();
@@ -132,6 +138,7 @@ public class Produtos extends javax.swing.JFrame {
         cadastrarProdutoCodigoLabel.setFont(new java.awt.Font("Raleway", 0, 12)); // NOI18N
         cadastrarProdutoCodigoLabel.setText("Código:");
 
+        cadastrarProdutoCodigoField.setFont(new java.awt.Font("Raleway", 0, 12)); // NOI18N
         cadastrarProdutoCodigoField.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 cadastrarProdutoCodigoFieldKeyPressed(evt);
@@ -140,6 +147,8 @@ public class Produtos extends javax.swing.JFrame {
 
         cadastrarProdutoNomeLabel.setFont(new java.awt.Font("Raleway", 0, 12)); // NOI18N
         cadastrarProdutoNomeLabel.setText("Nome:");
+
+        cadastrarProdutoNomeField.setFont(new java.awt.Font("Raleway", 0, 12)); // NOI18N
 
         cadastrarProdutoFornecedorLabel.setFont(new java.awt.Font("Raleway", 0, 12)); // NOI18N
         cadastrarProdutoFornecedorLabel.setText("Fornecedores:");
@@ -173,7 +182,6 @@ public class Produtos extends javax.swing.JFrame {
         scrollTablePrecoCompra.setViewportView(tablePrecoCompra);
         if (tablePrecoCompra.getColumnModel().getColumnCount() > 0) {
             tablePrecoCompra.getColumnModel().getColumn(0).setResizable(false);
-            tablePrecoCompra.getColumnModel().getColumn(0).setHeaderValue("Selecionar");
             tablePrecoCompra.getColumnModel().getColumn(1).setResizable(false);
             tablePrecoCompra.getColumnModel().getColumn(2).setResizable(false);
         }
@@ -257,20 +265,21 @@ public class Produtos extends javax.swing.JFrame {
             .addComponent(wrapCadastrarProduto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
-        editarProduto.setMinimumSize(new java.awt.Dimension(577, 482));
+        editarProduto.setMaximumSize(new java.awt.Dimension(577, 445));
+        editarProduto.setMinimumSize(new java.awt.Dimension(577, 445));
         editarProduto.setModal(true);
         editarProduto.setUndecorated(true);
-        editarProduto.setResizable(false);
+        editarProduto.setPreferredSize(new java.awt.Dimension(577, 445));
 
         wrapCadastrarProduto1.setBackground(new java.awt.Color(255, 255, 255));
-        wrapCadastrarProduto1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(39, 162, 67)));
+        wrapCadastrarProduto1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 119, 247)));
         wrapCadastrarProduto1.setMaximumSize(new java.awt.Dimension(577, 440));
         wrapCadastrarProduto1.setMinimumSize(new java.awt.Dimension(577, 440));
 
         editarProdutoHeader.setFont(new java.awt.Font("Raleway SemiBold", 0, 16)); // NOI18N
         editarProdutoHeader.setForeground(new java.awt.Color(255, 255, 255));
-        editarProdutoHeader.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/edu/ifrn/imgs/editarProdutoHeaderIcon.png"))); // NOI18N
-        editarProdutoHeader.setText("Editar produto");
+        editarProdutoHeader.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/edu/ifrn/imgs/cadastrarProdutoHeaderIcon.png"))); // NOI18N
+        editarProdutoHeader.setText("Nome do Produto");
         editarProdutoHeader.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
             public void mouseDragged(java.awt.event.MouseEvent evt) {
                 editarProdutoHeaderMouseDragged(evt);
@@ -286,9 +295,12 @@ public class Produtos extends javax.swing.JFrame {
         editarProdutoCodigoLabel.setText("Código:");
 
         editarProdutoCodigoField.setEditable(false);
+        editarProdutoCodigoField.setFont(new java.awt.Font("Raleway", 0, 12)); // NOI18N
 
         editarProdutoNomeLabel.setFont(new java.awt.Font("Raleway", 0, 12)); // NOI18N
         editarProdutoNomeLabel.setText("Nome:");
+
+        editarProdutoNomeField.setFont(new java.awt.Font("Raleway", 0, 12)); // NOI18N
 
         editarProdutoFornecedoresLabel.setFont(new java.awt.Font("Raleway", 0, 12)); // NOI18N
         editarProdutoFornecedoresLabel.setText("Fornecedores:");
@@ -306,7 +318,7 @@ public class Produtos extends javax.swing.JFrame {
                 java.lang.Object.class, java.lang.Double.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false
+                false, true
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -319,13 +331,19 @@ public class Produtos extends javax.swing.JFrame {
         });
         tableFornecedores.setGridColor(new java.awt.Color(204, 204, 204));
         tableFornecedores.setRowHeight(25);
+        tableFornecedores.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tableFornecedoresMouseClicked(evt);
+            }
+        });
         scrollTableFornecedores.setViewportView(tableFornecedores);
         if (tableFornecedores.getColumnModel().getColumnCount() > 0) {
             tableFornecedores.getColumnModel().getColumn(0).setResizable(false);
             tableFornecedores.getColumnModel().getColumn(1).setResizable(false);
         }
 
-        editarProdutoBtnAtualizar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/edu/ifrn/imgs/cPBtnCadastrar.png"))); // NOI18N
+        editarProdutoBtnAtualizar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/edu/ifrn/imgs/btnSalvarAlteracoes.png"))); // NOI18N
+        editarProdutoBtnAtualizar.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         editarProdutoBtnAtualizar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 editarProdutoBtnAtualizarActionPerformed(evt);
@@ -333,11 +351,16 @@ public class Produtos extends javax.swing.JFrame {
         });
 
         editarProdutoBtnFechar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/edu/ifrn/imgs/cPBtnFechar.png"))); // NOI18N
+        editarProdutoBtnFechar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         editarProdutoBtnFechar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 editarProdutoBtnFecharActionPerformed(evt);
             }
         });
+
+        btnMudarPreco.setText("Mudar preço");
+
+        btnExcluirFornecedor.setText("excluir");
 
         javax.swing.GroupLayout wrapCadastrarProduto1Layout = new javax.swing.GroupLayout(wrapCadastrarProduto1);
         wrapCadastrarProduto1.setLayout(wrapCadastrarProduto1Layout);
@@ -351,7 +374,12 @@ public class Produtos extends javax.swing.JFrame {
                         .addComponent(editarProdutoBtnAtualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 255, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(15, 15, 15)
                         .addComponent(editarProdutoBtnFechar, javax.swing.GroupLayout.PREFERRED_SIZE, 255, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(editarProdutoFornecedoresLabel)
+                    .addGroup(wrapCadastrarProduto1Layout.createSequentialGroup()
+                        .addComponent(editarProdutoFornecedoresLabel)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnExcluirFornecedor, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnMudarPreco, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(wrapCadastrarProduto1Layout.createSequentialGroup()
                         .addGroup(wrapCadastrarProduto1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(editarProdutoCodigoLabel)
@@ -377,9 +405,12 @@ public class Produtos extends javax.swing.JFrame {
                         .addComponent(editarProdutoNomeLabel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(editarProdutoNomeField, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(51, 51, 51)
-                .addComponent(editarProdutoFornecedoresLabel)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(144, 144, 144)
+                .addGroup(wrapCadastrarProduto1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(editarProdutoFornecedoresLabel)
+                    .addComponent(btnMudarPreco, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnExcluirFornecedor, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(scrollTableFornecedores, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(wrapCadastrarProduto1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -420,10 +451,6 @@ public class Produtos extends javax.swing.JFrame {
         headerLabel.setForeground(new java.awt.Color(255, 255, 255));
         headerLabel.setText("INVENTARY MANAGER");
 
-        jButton1.setText("jButton1");
-
-        jLabel2.setText("jLabel2");
-
         javax.swing.GroupLayout headerLayout = new javax.swing.GroupLayout(header);
         header.setLayout(headerLayout);
         headerLayout.setHorizontalGroup(
@@ -433,11 +460,7 @@ public class Produtos extends javax.swing.JFrame {
                 .addComponent(headerIcon)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(headerLabel)
-                .addGap(59, 59, 59)
-                .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnExit, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0))
         );
@@ -445,16 +468,13 @@ public class Produtos extends javax.swing.JFrame {
             headerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(headerLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(headerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(headerLabel)
-                    .addComponent(jLabel2))
+                .addComponent(headerLabel)
                 .addContainerGap())
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, headerLayout.createSequentialGroup()
                 .addGap(6, 6, 6)
                 .addGroup(headerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(btnExit, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(headerIcon, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(headerIcon, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(6, 6, 6))
         );
 
@@ -490,24 +510,17 @@ public class Produtos extends javax.swing.JFrame {
             }
         });
 
-        jLabel1.setText("jLabel1");
-
         javax.swing.GroupLayout sideMenuLayout = new javax.swing.GroupLayout(sideMenu);
         sideMenu.setLayout(sideMenuLayout);
         sideMenuLayout.setHorizontalGroup(
             sideMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(sideMenuLayout.createSequentialGroup()
+                .addGap(24, 24, 24)
                 .addGroup(sideMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(sideMenuLayout.createSequentialGroup()
-                        .addGap(24, 24, 24)
-                        .addGroup(sideMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btnFornecedores)
-                            .addComponent(btnCompras)
-                            .addComponent(btnDashboard)
-                            .addComponent(btnProdutos)))
-                    .addGroup(sideMenuLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jLabel1)))
+                    .addComponent(btnFornecedores)
+                    .addComponent(btnCompras)
+                    .addComponent(btnDashboard)
+                    .addComponent(btnProdutos))
                 .addGap(0, 65, Short.MAX_VALUE))
         );
         sideMenuLayout.setVerticalGroup(
@@ -521,9 +534,7 @@ public class Produtos extends javax.swing.JFrame {
                 .addComponent(btnProdutos, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnFornecedores, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel1)
-                .addContainerGap())
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         produtosLabel.setFont(new java.awt.Font("Raleway", 0, 30)); // NOI18N
@@ -539,6 +550,7 @@ public class Produtos extends javax.swing.JFrame {
         tableProdutosLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/edu/ifrn/imgs/tableComprasHeaderIcon.png"))); // NOI18N
         tableProdutosLabel.setText("Produtos cadastrados");
 
+        tableProdutos.setFont(new java.awt.Font("Raleway", 0, 12)); // NOI18N
         tableProdutos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null},
@@ -712,6 +724,7 @@ public class Produtos extends javax.swing.JFrame {
         cadastrarProduto.dispose();
         cadastrarProdutoNomeField.setText(null);
         cadastrarProdutoCodigoField.setText(null);
+        selecionarFornecedores();
     }//GEN-LAST:event_cadastrarProdutoBtnFecharActionPerformed
 
     private void cadastrarProdutoHeaderMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cadastrarProdutoHeaderMousePressed
@@ -769,6 +782,11 @@ public class Produtos extends javax.swing.JFrame {
                         }
                     } catch (NullPointerException ex) {
 
+                    } finally {
+                        cadastrarProdutoNomeField.setText(null);
+                        cadastrarProdutoCodigoField.setText(null);
+                        selecionarFornecedores();
+                        selecionarProdutos();
                     }
                 }
             }
@@ -798,7 +816,7 @@ public class Produtos extends javax.swing.JFrame {
     }//GEN-LAST:event_editarProdutoHeaderMousePressed
 
     private void editarProdutoBtnAtualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editarProdutoBtnAtualizarActionPerformed
-        // TODO add your handling code here:
+        System.out.println("Hello, world");
     }//GEN-LAST:event_editarProdutoBtnAtualizarActionPerformed
 
     private void editarProdutoBtnFecharActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editarProdutoBtnFecharActionPerformed
@@ -808,8 +826,11 @@ public class Produtos extends javax.swing.JFrame {
     private void tableProdutosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableProdutosMouseClicked
         selectedRow = tableProdutos.getSelectedRow();
         if (evt.getClickCount() >= 2 && selectedRow >= 0) {
-            String codigo = (String) tableProdutos.getValueAt(selectedRow, 0);
-            this.setFornecedoresProduto(codigo.trim());
+            this.produto = new ProdutoDAO().getProduto(tableProdutos.getValueAt(selectedRow, 0).toString().trim());
+            setFornecedoresProduto(this.produto.getCodigo());
+            editarProdutoHeader.setText(this.produto.getNome());
+            editarProdutoCodigoField.setText(this.produto.getCodigo());
+            editarProdutoNomeField.setText(this.produto.getNome());
             editarProduto.setResizable(false);
             editarProduto.setLocationRelativeTo(null);
             editarProduto.setVisible(true);
@@ -824,30 +845,42 @@ public class Produtos extends javax.swing.JFrame {
         selecionarProdutosComRest();
     }//GEN-LAST:event_pesquisaProdutosCaretUpdate
 
+    private void tableFornecedoresMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableFornecedoresMouseClicked
+        selectedRow  = tableFornecedores.getSelectedRow();
+        if (selectedRow >=0 ) {
+            btnExcluirFornecedor.setVisible(true);
+            btnMudarPreco.setVisible(true);
+        }
+    }//GEN-LAST:event_tableFornecedoresMouseClicked
+
     private void estilizarComponets() {
-        cadastrarProdutoLabel.setText("<html><body>- É necessário selecionar pelo menos um fornecedor. <br>- Usar ponto (1.99) e não vírgula (1,99) para separar valores decimais.</body></html>");
-        tablePrecoCompra.setFillsViewportHeight(true);
-        cadastrarProdutoNomeField.setBorder(BorderFactory.createCompoundBorder(cadastrarProdutoNomeField.getBorder(), BorderFactory.createEmptyBorder(5, 10, 5, 5)));
-        editarProdutoNomeField.setBorder(BorderFactory.createCompoundBorder(editarProdutoNomeField.getBorder(), BorderFactory.createEmptyBorder(5, 10, 5, 5)));
-        editarProdutoHeader.setBackground(Color.decode("#0077F7"));
-        editarProdutoHeader.setOpaque(true);
-        cadastrarProdutoCodigoField.setBorder(BorderFactory.createCompoundBorder(cadastrarProdutoCodigoField.getBorder(), BorderFactory.createEmptyBorder(5, 10, 5, 5)));
-        cadastrarProdutoHeader.setBackground(Color.decode("#00B050"));
-        cadastrarProdutoHeader.setOpaque(true);
-        pesquisaProdutos.setBorder(BorderFactory.createCompoundBorder(pesquisaProdutos.getBorder(), BorderFactory.createEmptyBorder(5, 10, 5, 5)));
-        this.setExtendedState(6);
         header.setBackground(Color.decode("#343A40"));
         sideMenu.setBackground(Color.decode("#212529"));
-        tableProdutosLabel.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.decode("#CFCFCF")));
+        cadastrarProdutoHeader.setBackground(Color.decode("#00B050"));
+        editarProdutoHeader.setBackground(Color.decode("#0077F7"));
+        editarProdutoHeader.setOpaque(true);
         tableProdutosLabel.setOpaque(true);
+        cadastrarProdutoHeader.setOpaque(true);
+        instructions.setText("<html><body>- Clique duas vezes em um produto para detalhá-lo.</body></html>");
+        cadastrarProdutoLabel.setText("<html><body>- É necessário selecionar pelo menos um fornecedor. <br>- Usar ponto (1.99) e não vírgula (1,99) para separar valores decimais.</body></html>");
+        tableProdutos.setFillsViewportHeight(true);
+        tablePrecoCompra.setFillsViewportHeight(true);
+        tableFornecedores.setFillsViewportHeight(true);
+        cadastrarProdutoNomeField.setBorder(BorderFactory.createCompoundBorder(cadastrarProdutoNomeField.getBorder(), BorderFactory.createEmptyBorder(5, 10, 5, 5)));
+        editarProdutoNomeField.setBorder(BorderFactory.createCompoundBorder(editarProdutoNomeField.getBorder(), BorderFactory.createEmptyBorder(5, 10, 5, 5)));
+        editarProdutoCodigoField.setBorder(BorderFactory.createCompoundBorder(editarProdutoCodigoField.getBorder(), BorderFactory.createEmptyBorder(5, 10, 5, 5)));
+        cadastrarProdutoCodigoField.setBorder(BorderFactory.createCompoundBorder(cadastrarProdutoCodigoField.getBorder(), BorderFactory.createEmptyBorder(5, 10, 5, 5)));
+        tableProdutosLabel.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.decode("#CFCFCF")));
+        pesquisaProdutos.setBorder(BorderFactory.createCompoundBorder(pesquisaProdutos.getBorder(), BorderFactory.createEmptyBorder(5, 10, 5, 5)));
         tableProdutos.setBorder(null);
         scrollTableProdutos.setBorder(null);
-        tableProdutos.setFillsViewportHeight(true);
-        JTableHeader tableProdutosHeader = tableProdutos.getTableHeader();
-        tableProdutosHeader.setFont((new Font("Raleway", 0, 13)));
+        this.setExtendedState(6);
         JTableHeader tablePrecoCompraHeader = tablePrecoCompra.getTableHeader();
+        JTableHeader tableProdutosHeader = tableProdutos.getTableHeader();
+        JTableHeader tableFornecedoresHeader = tableFornecedores.getTableHeader();
+        tableProdutosHeader.setFont((new Font("Raleway SemiBold", 0, 13)));
         tablePrecoCompraHeader.setFont((new Font("Raleway SemiBold", 0, 12)));
-        instructions.setText("<html><body>- Clique duas vezes em um produto para detalhá-lo.</body></html>");
+        tableFornecedoresHeader.setFont((new Font("Raleway SemiBold", 0, 12)));
     }
 
     private void estilizarBtns() {
@@ -872,6 +905,8 @@ public class Produtos extends javax.swing.JFrame {
         btnFornecedores.setFocusPainted(false);
 
         btnExcluir.setVisible(false);
+        btnMudarPreco.setVisible(false);
+        btnExcluirFornecedor.setVisible(false);
 
         btnCadastrarProduto.setFocusPainted(false);
         btnExcluir.setFocusPainted(false);
@@ -880,9 +915,14 @@ public class Produtos extends javax.swing.JFrame {
         cadastrarProdutoBtnFechar.setFocusPainted(false);
         editarProdutoBtnAtualizar.setFocusPainted(false);
         editarProdutoBtnFechar.setFocusPainted(false);
+
+        editarProdutoBtnAtualizar.setEnabled(false);
+
+        editarProdutoBtnAtualizar.setDisabledIcon(new javax.swing.ImageIcon(getClass().getResource("/br/edu/ifrn/imgs/btnSalvarAlteracoesDisable.png")));
+
     }
 
-    public void selecionarFornecedores() {
+    private void selecionarFornecedores() {
         int i = 0;
         modeloTablePrecoCompra.setNumRows(0);
         for (Fornecedor f : new FornecedorDAO().selecionarFornecedores()) {
@@ -898,27 +938,28 @@ public class Produtos extends javax.swing.JFrame {
         tablePrecoCompra.getColumnModel().getColumn(2).setMaxWidth(130);
     }
 
-    public void setFornecedoresProduto(String codigo) {
+    private void setFornecedoresProduto(String codigo) {
         modeloTableProdutoFornecedores.setNumRows(0);
         for (ProdutoFornecedor pf : new ProdutoFornecedorDAO().selecionarFornecedoresProduto(codigo)) {
-            modeloTableProdutoFornecedores.addRow(new Object[]{""});
+            double precoCompra = pf.getPrecoCompra().doubleValue();
+            modeloTableProdutoFornecedores.addRow(new Object[]{" " + pf.getFornecedor().getNome(), precoCompra});
         }
-        tableFornecedores.getColumnModel().getColumn(1).setPreferredWidth(130);
-        tableFornecedores.getColumnModel().getColumn(1).setMinWidth(130);
-        tableFornecedores.getColumnModel().getColumn(1).setMaxWidth(130);
+        tableFornecedores.getColumnModel().getColumn(1).setPreferredWidth(110);
+        tableFornecedores.getColumnModel().getColumn(1).setMinWidth(110);
+        tableFornecedores.getColumnModel().getColumn(1).setMaxWidth(110);
     }
 
-    public void selecionarProdutos() {
+    private void selecionarProdutos() {
         modeloTableProdutos.setNumRows(0);
         for (Produto p : new ProdutoDAO().selecionarProdutos()) {
             modeloTableProdutos.addRow(new Object[]{" " + p.getCodigo(), " " + p.getNome(), " " + new ProdutoFornecedorDAO().getFornecedoresJuntos(p.getCodigo())});
         }
-        tableProdutos.getColumnModel().getColumn(0).setPreferredWidth(300);
-        tableProdutos.getColumnModel().getColumn(0).setMinWidth(300);
-        tableProdutos.getColumnModel().getColumn(0).setMaxWidth(300);
+        tableProdutos.getColumnModel().getColumn(0).setPreferredWidth(200);
+        tableProdutos.getColumnModel().getColumn(0).setMinWidth(200);
+        tableProdutos.getColumnModel().getColumn(0).setMaxWidth(200);
     }
 
-    public void selecionarProdutosComRest() {
+    private void selecionarProdutosComRest() {
         modeloTableProdutos.setNumRows(0);
         for (Produto p : new ProdutoDAO().selecionarProdutos(pesquisaProdutos.getText())) {
             modeloTableProdutos.addRow(new Object[]{" " + p.getCodigo(), " " + p.getNome(), " " + new ProdutoFornecedorDAO().getFornecedoresJuntos(p.getCodigo())});
@@ -969,8 +1010,10 @@ public class Produtos extends javax.swing.JFrame {
     private javax.swing.JButton btnCompras;
     private javax.swing.JButton btnDashboard;
     private javax.swing.JButton btnExcluir;
+    private javax.swing.JToggleButton btnExcluirFornecedor;
     private javax.swing.JButton btnExit;
     private javax.swing.JButton btnFornecedores;
+    private javax.swing.JToggleButton btnMudarPreco;
     private javax.swing.JButton btnProdutos;
     private javax.swing.JDialog cadastrarProduto;
     private javax.swing.JButton cadastrarProdutoBtnCadastrar;
@@ -995,9 +1038,6 @@ public class Produtos extends javax.swing.JFrame {
     private javax.swing.JLabel headerIcon;
     private javax.swing.JLabel headerLabel;
     private javax.swing.JLabel instructions;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JTextField pesquisaProdutos;
     private javax.swing.JSeparator produtosDivisor;
     private javax.swing.JLabel produtosLabel;

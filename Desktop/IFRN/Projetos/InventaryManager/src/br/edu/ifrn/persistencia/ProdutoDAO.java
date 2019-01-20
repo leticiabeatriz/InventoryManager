@@ -46,6 +46,23 @@ public class ProdutoDAO extends Conexao {
         return verificador;
     }
     
+    public Produto getProduto(String codigo){
+        Produto produto = new Produto();
+        String sql = "SELECT * FROM produtos WHERE codigo ='"+codigo+"'";
+        conectar();
+        ResultSet resultado;
+        try {
+            resultado = estado.executeQuery(sql);
+            while(resultado.next()){
+                produto.setCodigo(resultado.getString("codigo"));
+                produto.setNome(resultado.getString("nome"));
+            }
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Produto não encontrado");
+        }
+        return produto;
+    }
+    
     public ArrayList<Produto> selecionarProdutos(){
         ArrayList<Produto> lista = new ArrayList<>();
         String sql = "SELECT * FROM produtos ORDER BY nome";

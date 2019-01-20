@@ -88,5 +88,28 @@ public class ProdutoFornecedorDAO extends Conexao {
         }
         return fornecedores;
     }
+    
+    public ProdutoFornecedor getPrecoFornecedor(String codigo, String cnpj) {;
+        ProdutoFornecedor pf = new ProdutoFornecedor();
+        String sql = "SELECT nome, precoCompra, cnpjFornecedor FROM produtosFornecedores LEFT JOIN fornecedores ON cnpjFornecedor = cnpj WHERE codigoProduto = '" + codigo + "' AND cnpjFornecedor = '"+cnpj+"'";
+        ResultSet resultado;
+        try {
+            conectar();
+            resultado = estado.executeQuery(sql);
+            while (resultado.next()) {
+                Fornecedor f = new Fornecedor();
+                f.setNome(resultado.getString("nome"));
+                f.setCnpj(resultado.getString("cnpjFornecedor"));
+                pf.setFornecedor(f);
+                pf.setPrecoCompra(resultado.getBigDecimal("precoCompra"));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(ProdutoFornecedorDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            fecharConexao();
+        }
+        return pf;
+    }
+    
 
 }

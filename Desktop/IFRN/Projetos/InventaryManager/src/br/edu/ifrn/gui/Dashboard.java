@@ -51,14 +51,11 @@ public class Dashboard extends javax.swing.JFrame {
         btnExit = new javax.swing.JButton();
         headerIcon = new javax.swing.JLabel();
         headerLabel = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
-        jLabel2 = new javax.swing.JLabel();
         sideMenu = new javax.swing.JPanel();
         btnDashboard = new javax.swing.JButton();
         btnCompras = new javax.swing.JButton();
         btnProdutos = new javax.swing.JButton();
         btnFornecedores = new javax.swing.JButton();
-        jLabel1 = new javax.swing.JLabel();
         dashboardLabel = new javax.swing.JLabel();
         dashboardDivisor = new javax.swing.JSeparator();
         comprasDoMes = new javax.swing.JPanel();
@@ -111,10 +108,6 @@ public class Dashboard extends javax.swing.JFrame {
         headerLabel.setForeground(new java.awt.Color(255, 255, 255));
         headerLabel.setText("INVENTARY MANAGER");
 
-        jButton1.setText("jButton1");
-
-        jLabel2.setText("jLabel2");
-
         javax.swing.GroupLayout headerLayout = new javax.swing.GroupLayout(header);
         header.setLayout(headerLayout);
         headerLayout.setHorizontalGroup(
@@ -124,11 +117,7 @@ public class Dashboard extends javax.swing.JFrame {
                 .addComponent(headerIcon)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(headerLabel)
-                .addGap(59, 59, 59)
-                .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnExit, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0))
         );
@@ -136,16 +125,13 @@ public class Dashboard extends javax.swing.JFrame {
             headerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(headerLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(headerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(headerLabel)
-                    .addComponent(jLabel2))
+                .addComponent(headerLabel)
                 .addContainerGap())
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, headerLayout.createSequentialGroup()
                 .addGap(6, 6, 6)
                 .addGroup(headerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(btnExit, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(headerIcon, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(headerIcon, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(6, 6, 6))
         );
 
@@ -181,24 +167,17 @@ public class Dashboard extends javax.swing.JFrame {
             }
         });
 
-        jLabel1.setText("jLabel1");
-
         javax.swing.GroupLayout sideMenuLayout = new javax.swing.GroupLayout(sideMenu);
         sideMenu.setLayout(sideMenuLayout);
         sideMenuLayout.setHorizontalGroup(
             sideMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(sideMenuLayout.createSequentialGroup()
+                .addGap(24, 24, 24)
                 .addGroup(sideMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(sideMenuLayout.createSequentialGroup()
-                        .addGap(24, 24, 24)
-                        .addGroup(sideMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btnFornecedores)
-                            .addComponent(btnCompras)
-                            .addComponent(btnDashboard)
-                            .addComponent(btnProdutos)))
-                    .addGroup(sideMenuLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jLabel1)))
+                    .addComponent(btnFornecedores)
+                    .addComponent(btnCompras)
+                    .addComponent(btnDashboard)
+                    .addComponent(btnProdutos))
                 .addGap(0, 65, Short.MAX_VALUE))
         );
         sideMenuLayout.setVerticalGroup(
@@ -212,9 +191,7 @@ public class Dashboard extends javax.swing.JFrame {
                 .addComponent(btnProdutos, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnFornecedores, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel1)
-                .addContainerGap())
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         dashboardLabel.setFont(new java.awt.Font("Raleway", 0, 30)); // NOI18N
@@ -566,10 +543,6 @@ public class Dashboard extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExitActionPerformed
-        System.exit(0);
-    }//GEN-LAST:event_btnExitActionPerformed
-
     private void comprasDoMesBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_comprasDoMesBtnMouseClicked
         
     }//GEN-LAST:event_comprasDoMesBtnMouseClicked
@@ -603,6 +576,10 @@ public class Dashboard extends javax.swing.JFrame {
         new Fornecedores().setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnFornecedoresActionPerformed
+
+    private void btnExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExitActionPerformed
+        System.exit(0);
+    }//GEN-LAST:event_btnExitActionPerformed
     
     private void estilizarBtns(){
         btnDashboard.setOpaque(false);
@@ -687,9 +664,6 @@ public class Dashboard extends javax.swing.JFrame {
     private javax.swing.JPanel header;
     private javax.swing.JLabel headerIcon;
     private javax.swing.JLabel headerLabel;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel notificacoes;
     private javax.swing.JLabel notificacoesBtn;
     private javax.swing.JLabel notificacoesDetalhar;

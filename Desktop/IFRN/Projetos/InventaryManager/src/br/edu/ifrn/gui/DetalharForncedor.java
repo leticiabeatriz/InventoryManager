@@ -52,14 +52,11 @@ public class DetalharForncedor extends javax.swing.JFrame {
         btnExit = new javax.swing.JButton();
         headerIcon = new javax.swing.JLabel();
         headerLabel = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
-        jLabel2 = new javax.swing.JLabel();
         sideMenu = new javax.swing.JPanel();
         btnDashboard = new javax.swing.JButton();
         btnCompras = new javax.swing.JButton();
         btnProdutos = new javax.swing.JButton();
         btnFornecedores = new javax.swing.JButton();
-        jLabel1 = new javax.swing.JLabel();
         fornecedorLabel = new javax.swing.JLabel();
         fornecedorDivisor = new javax.swing.JSeparator();
         wrapTableProdutosFornecedor = new javax.swing.JPanel();
@@ -103,10 +100,6 @@ public class DetalharForncedor extends javax.swing.JFrame {
         headerLabel.setForeground(new java.awt.Color(255, 255, 255));
         headerLabel.setText("INVENTARY MANAGER");
 
-        jButton1.setText("jButton1");
-
-        jLabel2.setText("jLabel2");
-
         javax.swing.GroupLayout headerLayout = new javax.swing.GroupLayout(header);
         header.setLayout(headerLayout);
         headerLayout.setHorizontalGroup(
@@ -116,11 +109,7 @@ public class DetalharForncedor extends javax.swing.JFrame {
                 .addComponent(headerIcon)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(headerLabel)
-                .addGap(59, 59, 59)
-                .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnExit, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0))
         );
@@ -128,16 +117,13 @@ public class DetalharForncedor extends javax.swing.JFrame {
             headerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(headerLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(headerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(headerLabel)
-                    .addComponent(jLabel2))
+                .addComponent(headerLabel)
                 .addContainerGap())
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, headerLayout.createSequentialGroup()
                 .addGap(6, 6, 6)
                 .addGroup(headerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(btnExit, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(headerIcon, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(headerIcon, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(6, 6, 6))
         );
 
@@ -173,24 +159,17 @@ public class DetalharForncedor extends javax.swing.JFrame {
             }
         });
 
-        jLabel1.setText("jLabel1");
-
         javax.swing.GroupLayout sideMenuLayout = new javax.swing.GroupLayout(sideMenu);
         sideMenu.setLayout(sideMenuLayout);
         sideMenuLayout.setHorizontalGroup(
             sideMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(sideMenuLayout.createSequentialGroup()
+                .addGap(24, 24, 24)
                 .addGroup(sideMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(sideMenuLayout.createSequentialGroup()
-                        .addGap(24, 24, 24)
-                        .addGroup(sideMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btnFornecedores)
-                            .addComponent(btnCompras)
-                            .addComponent(btnDashboard)
-                            .addComponent(btnProdutos)))
-                    .addGroup(sideMenuLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jLabel1)))
+                    .addComponent(btnFornecedores)
+                    .addComponent(btnCompras)
+                    .addComponent(btnDashboard)
+                    .addComponent(btnProdutos))
                 .addGap(0, 65, Short.MAX_VALUE))
         );
         sideMenuLayout.setVerticalGroup(
@@ -204,9 +183,7 @@ public class DetalharForncedor extends javax.swing.JFrame {
                 .addComponent(btnProdutos, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnFornecedores, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 410, Short.MAX_VALUE)
-                .addComponent(jLabel1)
-                .addContainerGap())
+                .addContainerGap(435, Short.MAX_VALUE))
         );
 
         fornecedorLabel.setFont(new java.awt.Font("Raleway", 0, 26)); // NOI18N
@@ -795,9 +772,6 @@ public class DetalharForncedor extends javax.swing.JFrame {
     private javax.swing.JPanel header;
     private javax.swing.JLabel headerIcon;
     private javax.swing.JLabel headerLabel;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JTextField nomeField;
     private javax.swing.JLabel nomeLabel;
     private javax.swing.JFormattedTextField novoTelefoneField;
